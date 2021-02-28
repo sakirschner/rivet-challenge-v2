@@ -1,34 +1,40 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import employeeAPI from '../../api/employeeAPI';
-
-export const initialState = {
-    employees: [],
-	status: 'idle',
-	error: null,
-};
+import { createAsyncThunk, createEntityAdapter, createSlice } from '@reduxjs/toolkit';
+import { employeeAPI } from '../../api/employeeAPI';
 
 export const fetchEmployees = createAsyncThunk(
 	'employees/fetchEmployees',
 	async () => {
-        try {
-            const response = await employeeAPI.get('/profiles');
-            return response.data;
-        } catch (err) {
-            console.error('Failed to fetch employees: ', err)
-        }
+		const response = await employeeAPI.get('/profiles');
+		return response;
 	}
 );
 
+export const fetchEmployeeById = createAsyncThunk(
+	'employee/fetchEmployee',
+	async (employeeId) => {
+		const response = await employeeAPI.get(`/profiles/${employeeId}`)
+		return response;
+	}
+)
+
+const employeesAdapter = createEntityAdapter({
+	selectId: (employee) => employee.id
+});
+
 const employeesSlice = createSlice({
 	name: 'employees',
-	initialState,
+	initialState: employeesAdapter.getInitialState({
+		status: 'idle',
+		error: null
+	}),
 	reducers: {},
 	extraReducers: {
 		[fetchEmployees.pending]: (state) => {
-			state.loading = 'loading';
+			state.status = 'loading';
 		},
 		[fetchEmployees.fulfilled]: (state, action) => {
-			state.employees = state.employees.concat(action.payload);
+			state.status = 'succeeded';
+			employeesAdapter.setAll(state, action.payload)
 		},
 		[fetchEmployees.rejected]: (state, action) => {
 			state.status = 'failed';
@@ -37,4 +43,14 @@ const employeesSlice = createSlice({
 	}
 });
 
+export const employeesSelectors = employeesAdapter.getSelectors(
+	(state) => state.employees
+)
+
 export default employeesSlice.reducer;
+
+// export const selectAllEmployees = (state) => state.employees.employees;
+
+// export const selectEmployeeById = (state, employeeId) => 
+// 	state.employees.employees.find((employee) => 
+// 		employee.id === Number(employeeId))
