@@ -1,12 +1,10 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, createEntityAdapter } from '@reduxjs/toolkit';
 import { employeeAPI } from '../../api/employeeAPI';
 
-export const initialState = {
-	employees: [],
-	employeesStatus: 'idle',
-	employeeStatus: 'idle',
-	error: null
-};
+const employeesAdapter = createEntityAdapter({
+	selectId: (employee) => employee.id,
+	sortComparer: (a, b) => a.id.toString().localeCompare(b.id, undefined, {numeric: true})
+});
 
 export const fetchEmployees = createAsyncThunk(
 	'employees/fetchEmployees',
@@ -16,13 +14,13 @@ export const fetchEmployees = createAsyncThunk(
 	}
 );
 
-export const fetchEmployeeById = createAsyncThunk(
-	'employee/fetchEmployee',
-	async (employeeId) => {
-		const response = await employeeAPI.get(`/profile/${employeeId}`);
-		return response;
-	}
-);
+// export const fetchEmployeeById = createAsyncThunk(
+// 	'employee/fetchEmployee',
+// 	async (employeeId) => {
+// 		const response = await employeeAPI.get(`/profile/${employeeId}`);
+// 		return response;
+// 	}
+// );
 
 export const updateEmployee = createAsyncThunk(
 	'employee/updateEmployee',
@@ -32,42 +30,63 @@ export const updateEmployee = createAsyncThunk(
 	}
 );
 
+export const addEmployee = createAsyncThunk(
+	'employee/addEmployee',
+	async ({ employee }) => {
+		const response = await employeeAPI.post(`/profile`, employee);
+		return response;
+	}
+)
+
 const employeesSlice = createSlice({
 	name: 'employees',
-	initialState,
+	initialState: employeesAdapter.getInitialState({
+		status: 'idle',
+		error: null
+	}),
 	reducers: {},
 	extraReducers: {
 		[fetchEmployees.pending]: (state) => {
-			state.employeesStatus = 'loading';
+			state.status = 'loading';
 		},
-		[fetchEmployees.fulfilled]: (state, action) => {
-			state.employeesStatus = 'succeeded';
-			state.employeeStatus = 'succeeded';
-			state.employees = state.employees.concat(action.payload);
+		[fetchEmployees.fulfilled]: (state, { payload }) => {
+			state.status = 'succeeded';
+			employeesAdapter.setAll(state, payload)
 		},
-		[fetchEmployees.rejected]: (state, action) => {
-			state.employeesStatus = 'failed';
-			state.error = action.error.message;
+		[fetchEmployees.rejected]: (state, { error }) => {
+			state.status = 'failed';
+			state.error = error.message;
 		},
-		[fetchEmployeeById.pending]: (state) => {
-			state.employeeStatus = 'loading';
-		},
-		[fetchEmployeeById.fulfilled]: (state, action) => {
-			state.employeeStatus = 'succeeded';
-			state.employees.push(action.payload);
-		},
-		[fetchEmployeeById.rejected]: (state, action) => {
-			state.employeeStatus = 'failed';
-			state.error = action.error.message;
+		[updateEmployee.fulfilled]: (state, { payload }) => {
+			console.log(payload.id)
+			employeesAdapter.updateOne(state, {
+				id: payload.id,
+				changes: payload
+			})
 		}
+		// [fetchEmployeeById.pending]: (state) => {
+		// 	state.status = 'loading';
+		// },
+		// [fetchEmployeeById.fulfilled]: (state, action) => {
+		// 	state.status = 'succeeded';
+		// 	state.employees.push(action.payload);
+		// },
+		// [fetchEmployeeById.rejected]: (state, action) => {
+		// 	state.status = 'failed';
+		// 	state.error = action.error.message;
+		// },
 	}
 });
 
+export const employeesSelectors = employeesAdapter.getSelectors(
+	(state) => state.employees
+)
+
 export default employeesSlice.reducer;
 
-export const selectAllEmployees = (state) => state.employees.employees;
+// export const selectAllEmployees = (state) => state.employees.employees;
 
-export const selectEmployeeById = (state, employeeId) =>
-	state.employees.employees.find(
-		(employee) => employee.id === Number(employeeId)
-	);
+// export const selectEmployeeById = (state, employeeId) =>
+// 	state.employees.employees.find(
+// 		(employee) => employee.id === Number(employeeId)
+// 	);

@@ -21,7 +21,7 @@ export async function employeeAPI(endpoint, { body, ...customConfig } = {}) {
 		console.error(new Error(`${response.status} ${response.statusText}`));
 		throw new Error(response.statusText);
 	} catch (err) {
-		return Promise.reject(err.message ? err.message : data);
+		return Promise.reject(err);
 	}
 }
 

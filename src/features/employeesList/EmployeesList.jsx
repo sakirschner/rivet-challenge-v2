@@ -1,26 +1,27 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { fetchEmployees, selectAllEmployees } from './employeesSlice';
+import { fetchEmployees, employeesSelectors } from './employeesSlice';
 import { EmployeesListItem } from '../../components/EmployeesListItem';
+import store from '../../app/store'
 
 export const EmployeesList = () => {
-	const employees = useSelector(selectAllEmployees);	
-	const employeesStatus = useSelector((state) => state.employees.employeesStatus);
+	const employees = employeesSelectors.selectAll(store.getState());	
+	const status = useSelector((state) => state.employees.status);
 	const error = useSelector((state) => state.employees.error);
 
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		if (employeesStatus === 'idle') {
+		if (status === 'idle') {
 			dispatch(fetchEmployees());
 		}
-	}, [employeesStatus, dispatch]);
+	}, [status, dispatch]);
 
 	return (
 		<div>
-			{employeesStatus === 'loading' ? <h1>Loading...</h1> : null}
-			{employeesStatus === 'succeeded'
+			{status === 'loading' ? <h1>Loading...</h1> : null}
+			{status === 'succeeded'
 				? employees.map((employee) => (
 						<EmployeesListItem
 							key={employee.id}
@@ -28,7 +29,7 @@ export const EmployeesList = () => {
 						/>
 				  ))
 				: null}
-			{employeesStatus === 'failed' ? <h1>{error}</h1> : null}
+			{status === 'failed' ? <h1>{error}</h1> : null}
 		</div>
 	);
 };

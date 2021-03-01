@@ -1,41 +1,42 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 import {
-	selectEmployeeById,
-	fetchEmployeeById,
+	employeesSelectors,
+	fetchEmployees,
 	updateEmployee
 } from '../employeesList/employeesSlice';
+import store from '../../app/store';
 
 import { EmployeeForm } from '../../components/EmployeeForm';
 
 export const EditEmployeeForm = ({ match }) => {
 	const { employeeId } = match.params;
 
-	const employeeStatus = useSelector(
-		(state) => state.employees.employeeStatus
+	const status = useSelector(
+		(state) => state.employees.status
 	);
-	const error = useSelector((state) => state.employees.error);
-	const employee = useSelector((state) =>
-		selectEmployeeById(state, employeeId)
-	);
+	const employeeToEdit = employeesSelectors.selectById(store.getState(), employeeId)
+
+	const [updateRequestStatus, setUpdateRequestStatus] = useState('idle')
 
 	const dispatch = useDispatch();
+	const history = useHistory();
 
 	useEffect(() => {
-		if (!employee) {
-			dispatch(fetchEmployeeById(employeeId));
+		if (status === 'idle') {
+			dispatch(fetchEmployees());
 		}
-	}, [employee, employeeId, employeeStatus, dispatch]);
+	}, [status, dispatch]);
 
-	const initialEmployee = employee;
-
-	// const history = useHistory();
-
-	const onSubmit = (employeeToUpdate) => {
-		console.log(employee)
-		dispatch(updateEmployee(employeeToUpdate));
+	const onSubmit = async (employeeToUpdate) => {
+		setUpdateRequestStatus('pending')
+		const response = await dispatch(updateEmployee(employeeToUpdate));
+		if (response.error) {
+			window.alert(response.error.message)
+		}
+		setUpdateRequestStatus('idle')
 	};
 
 	// const validate = (values) => {
@@ -52,7 +53,7 @@ export const EditEmployeeForm = ({ match }) => {
 		<div>
 			<EmployeeForm
 				onSubmit={onSubmit}
-				initialEmployee={initialEmployee}
+				initialEmployee={employeeToEdit}
 				// validate={validate}
 			/>
 		</div>

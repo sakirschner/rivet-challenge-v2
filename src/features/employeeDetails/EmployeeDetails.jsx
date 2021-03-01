@@ -3,33 +3,32 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import {
-	selectEmployeeById,
-	fetchEmployeeById
+	employeesSelectors,
+	fetchEmployees
 } from '../employeesList/employeesSlice';
+import store from '../../app/store';
 
 export const EmployeeDetails = ({ match }) => {
 	const { employeeId } = match.params;
 
-	const employeeStatus = useSelector(
-		(state) => state.employees.employeeStatus
+	const status = useSelector(
+		(state) => state.employees.status
 	);
 	const error = useSelector((state) => state.employees.error);
-	const employee = useSelector((state) =>
-		selectEmployeeById(state, employeeId)
-	);
+	const employee = employeesSelectors.selectById(store.getState(), employeeId)
 
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		if (!employee) {
-			dispatch(fetchEmployeeById(employeeId));
+		if (status === 'idle') {
+			dispatch(fetchEmployees());
 		}
-	}, [employee, employeeId, employeeStatus, dispatch]);
+	}, [status, dispatch]);
 
 	return (
 		<div>
-			{employeeStatus === 'loading' ? <h1>Loading...</h1> : null}
-			{employeeStatus === 'succeeded' ? (
+			{status === 'loading' ? <h1>Loading...</h1> : null}
+			{status === 'succeeded' ? (
 				<div>
 					<h1>{employee.email}</h1>
 					<Link to={`/edit/${employee.id}`}>
@@ -37,7 +36,7 @@ export const EmployeeDetails = ({ match }) => {
 					</Link>
 				</div>
 			) : null}
-			{employeeStatus === 'failed' ? <h1>{error}</h1> : null}
+			{status === 'failed' ? <h1>{error}</h1> : null}
 		</div>
 	);
 };
