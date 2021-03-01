@@ -1,15 +1,15 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { fetchEmployees, selectAllEmployees, employeesSelectors } from './employeesSlice';
+import { fetchEmployees, selectAllEmployees } from './employeesSlice';
 import { EmployeesListItem } from '../../components/EmployeesListItem';
 
 export const EmployeesList = () => {
-	const dispatch = useDispatch();
-
-	const employees = useSelector(employeesSelectors.selectAll);
-	const employeesStatus = useSelector((state) => state.employees.status);
+	const employees = useSelector(selectAllEmployees);	
+	const employeesStatus = useSelector((state) => state.employees.employeesStatus);
 	const error = useSelector((state) => state.employees.error);
+
+	const dispatch = useDispatch();
 
 	useEffect(() => {
 		if (employeesStatus === 'idle') {

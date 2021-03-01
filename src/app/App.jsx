@@ -8,6 +8,7 @@ import {
 
 import { EmployeesList } from '../features/employeesList/EmployeesList';
 import { EmployeeDetails } from '../features/employeeDetails/EmployeeDetails';
+import { EditEmployeeForm } from '../features/editEmployee/EditEmployeeForm';
 
 export default function App() {
 	return (
@@ -15,7 +16,8 @@ export default function App() {
 			<Switch>
 				<Route exact path='/' component={EmployeesList} />
                 <Route exact path='/profile/:employeeId' component={EmployeeDetails} />
-                <Redirect to="/" />
+                <Route exact path='/edit/:employeeId' component={EditEmployeeForm} />
+				<Redirect to="/" />
 			</Switch>
 		</Router>
 	);
