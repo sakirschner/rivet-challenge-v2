@@ -14,14 +14,6 @@ export const fetchEmployees = createAsyncThunk(
 	}
 );
 
-// export const fetchEmployeeById = createAsyncThunk(
-// 	'employee/fetchEmployee',
-// 	async (employeeId) => {
-// 		const response = await employeeAPI.get(`/profile/${employeeId}`);
-// 		return response;
-// 	}
-// );
-
 export const updateEmployee = createAsyncThunk(
 	'employee/updateEmployee',
 	async ({ employee }) => {
@@ -58,23 +50,14 @@ const employeesSlice = createSlice({
 			state.error = error.message;
 		},
 		[updateEmployee.fulfilled]: (state, { payload }) => {
-			console.log(payload.id)
 			employeesAdapter.updateOne(state, {
 				id: payload.id,
 				changes: payload
 			})
+		},
+		[addEmployee.fulfilled]: (state, { payload }) => {
+			employeesAdapter.addOne(state, payload)
 		}
-		// [fetchEmployeeById.pending]: (state) => {
-		// 	state.status = 'loading';
-		// },
-		// [fetchEmployeeById.fulfilled]: (state, action) => {
-		// 	state.status = 'succeeded';
-		// 	state.employees.push(action.payload);
-		// },
-		// [fetchEmployeeById.rejected]: (state, action) => {
-		// 	state.status = 'failed';
-		// 	state.error = action.error.message;
-		// },
 	}
 });
 
@@ -83,10 +66,3 @@ export const employeesSelectors = employeesAdapter.getSelectors(
 )
 
 export default employeesSlice.reducer;
-
-// export const selectAllEmployees = (state) => state.employees.employees;
-
-// export const selectEmployeeById = (state, employeeId) =>
-// 	state.employees.employees.find(
-// 		(employee) => employee.id === Number(employeeId)
-// 	);

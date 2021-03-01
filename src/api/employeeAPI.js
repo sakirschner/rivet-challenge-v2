@@ -34,5 +34,5 @@ employeeAPI.put = function (endpoint, body , customConfig = {}) {
 };
 
 employeeAPI.post = function (endpoint, body , customConfig = {}) {
-	return employeeAPI(endpoint, {...customConfig, body, method: 'PUT'})
+	return employeeAPI(endpoint, {...customConfig, body, method: 'POST'})
 };

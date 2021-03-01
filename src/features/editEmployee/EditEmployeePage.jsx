@@ -8,10 +8,9 @@ import {
 	updateEmployee
 } from '../employeesList/employeesSlice';
 import store from '../../app/store';
-
 import { EmployeeForm } from '../../components/EmployeeForm';
 
-export const EditEmployeeForm = ({ match }) => {
+export const EditEmployeePage = ({ match }) => {
 	const { employeeId } = match.params;
 
 	const status = useSelector(
