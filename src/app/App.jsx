@@ -8,7 +8,7 @@ import {
 
 import { EmployeesList } from '../features/employeesList/EmployeesList';
 import { EmployeeDetails } from '../features/employeeDetails/EmployeeDetails';
-import { EditEmployeeForm } from '../features/editEmployee/EditEmployeeForm';
+import { EditEmployeeForm } from '../features/editEmployee/EditEmployeePage';
 
 export default function App() {
 	return (

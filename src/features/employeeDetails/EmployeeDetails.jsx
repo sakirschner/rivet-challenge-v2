@@ -21,10 +21,10 @@ export const EmployeeDetails = ({ match }) => {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		if (!employee) {
+		if (!employee && employeeStatus === 'idle') {
 			dispatch(fetchEmployeeById(employeeId));
 		}
-	}, [employee, employeeId, dispatch]);
+	}, [employee, employeeId, employeeStatus, dispatch]);
 
 	return (
 		<div>
