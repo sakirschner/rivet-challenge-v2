@@ -28,3 +28,11 @@ export async function employeeAPI(endpoint, { body, ...customConfig } = {}) {
 employeeAPI.get = function (endpoint, customConfig = {}) {
 	return employeeAPI(endpoint, { ...customConfig, method: 'GET' });
 };
+
+employeeAPI.put = function (endpoint, body , customConfig = {}) {
+	return employeeAPI(endpoint, {...customConfig, body, method: 'PUT'})
+};
+
+employeeAPI.post = function (endpoint, body , customConfig = {}) {
+	return employeeAPI(endpoint, {...customConfig, body, method: 'PUT'})
+};

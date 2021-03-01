@@ -24,20 +24,29 @@ export const fetchEmployeeById = createAsyncThunk(
 	}
 );
 
+export const updateEmployee = createAsyncThunk(
+	'employee/updateEmployee',
+	async ({ employee }) => {
+		const response = await employeeAPI.put(`/profile/${employee.id}`, employee);
+		return response;
+	}
+);
+
 const employeesSlice = createSlice({
 	name: 'employees',
 	initialState,
 	reducers: {},
 	extraReducers: {
 		[fetchEmployees.pending]: (state) => {
-			state.employeesStatus  = 'loading';
+			state.employeesStatus = 'loading';
 		},
 		[fetchEmployees.fulfilled]: (state, action) => {
 			state.employeesStatus = 'succeeded';
+			state.employeeStatus = 'succeeded';
 			state.employees = state.employees.concat(action.payload);
 		},
 		[fetchEmployees.rejected]: (state, action) => {
-			state.employeesStatus  = 'failed';
+			state.employeesStatus = 'failed';
 			state.error = action.error.message;
 		},
 		[fetchEmployeeById.pending]: (state) => {
@@ -45,12 +54,12 @@ const employeesSlice = createSlice({
 		},
 		[fetchEmployeeById.fulfilled]: (state, action) => {
 			state.employeeStatus = 'succeeded';
-			state.employees.push(action.payload)
+			state.employees.push(action.payload);
 		},
 		[fetchEmployeeById.rejected]: (state, action) => {
-			state.employeeStatus  = 'failed';
+			state.employeeStatus = 'failed';
 			state.error = action.error.message;
-		},
+		}
 	}
 });
 

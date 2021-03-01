@@ -21,7 +21,7 @@ export const EmployeeDetails = ({ match }) => {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		if (!employee && employeeStatus === 'idle') {
+		if (!employee) {
 			dispatch(fetchEmployeeById(employeeId));
 		}
 	}, [employee, employeeId, employeeStatus, dispatch]);

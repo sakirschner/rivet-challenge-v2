@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
-export const EmployeeForm = ({ initialValues, onSubmit }) => {
-	const [employee, setEmployee] = useState(initialValues || {});
+export const EmployeeForm = ({ initialEmployee, onSubmit }) => {
+	const [employee, setEmployee] = useState(initialEmployee || {});
 	// const [touchedValues, setTouchedValues] = useState({});
 	// const [errors, setErrors] = useState({});
 

@@ -1,27 +1,42 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 import {
 	selectEmployeeById,
-	fetchEmployeeById
+	fetchEmployeeById,
+	updateEmployee
 } from '../employeesList/employeesSlice';
 
 import { EmployeeForm } from '../../components/EmployeeForm';
 
 export const EditEmployeeForm = ({ match }) => {
-	// const { employeeId } = match.params;
+	const { employeeId } = match.params;
 
-	// const error = useSelector((state) => state.employees.error);
+	const employeeStatus = useSelector(
+		(state) => state.employees.employeeStatus
+	);
+	const error = useSelector((state) => state.employees.error);
+	const employee = useSelector((state) =>
+		selectEmployeeById(state, employeeId)
+	);
 
-	// const dispatch = useDispatch();
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		if (!employee) {
+			dispatch(fetchEmployeeById(employeeId));
+		}
+	}, [employee, employeeId, employeeStatus, dispatch]);
+
+	const initialEmployee = employee;
+
 	// const history = useHistory();
 
-	const onSubmit = (values) => {
-		window.alert(JSON.stringify({ values }, null, 2));
+	const onSubmit = (employeeToUpdate) => {
+		console.log(employee)
+		dispatch(updateEmployee(employeeToUpdate));
 	};
-
-	const initialValues = null;
 
 	// const validate = (values) => {
 	// 	const errors = {};
@@ -37,7 +52,7 @@ export const EditEmployeeForm = ({ match }) => {
 		<div>
 			<EmployeeForm
 				onSubmit={onSubmit}
-				initialValues={initialValues}
+				initialEmployee={initialEmployee}
 				// validate={validate}
 			/>
 		</div>
