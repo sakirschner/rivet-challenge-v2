@@ -11,7 +11,7 @@ import store from '../../app/store';
 export const EmployeeDetails = ({ match }) => {
 	const { employeeId } = match.params;
 
-	const status = useSelector((state) => state.employees.status);
+	const fetchStatus = useSelector((state) => state.employees.fetchStatus);
 	const error = useSelector((state) => state.employees.error);
 	
 	const employee = employeesSelectors.selectById(
@@ -19,28 +19,18 @@ export const EmployeeDetails = ({ match }) => {
 		employeeId
 	);
 
-	// const employee = useSelector((state) =>
-	// 	selectEmployeeById(state, employeeId)
-	// );
-
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		if (status === 'idle') {
+		if (fetchStatus === 'idle') {
 			dispatch(fetchEmployees());
 		}
-	}, [status, dispatch]);
-
-	// useEffect(() => {
-	// 	if (!employee) {
-	// 		dispatch(fetchEmployeeById(employeeId));
-	// 	}
-	// }, [employee, employeeId, employeeStatus, dispatch]);
+	}, [fetchStatus, dispatch]);
 
 	return (
 		<div>
-			{status === 'loading' ? <h1>Loading...</h1> : null}
-			{status === 'succeeded' ? (
+			{fetchStatus === 'loading' ? <h1>Loading...</h1> : null}
+			{fetchStatus === 'succeeded' ? (
 				<div>
 					<h1>{employee.email}</h1>
 					<Link to={`/edit/${employee.id}`}>
@@ -48,7 +38,7 @@ export const EmployeeDetails = ({ match }) => {
 					</Link>
 				</div>
 			) : null}
-			{status === 'failed' ? <h1>{error}</h1> : null}
+			{fetchStatus === 'failed' ? <h1>{error}</h1> : null}
 		</div>
 	);
 };

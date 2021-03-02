@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
@@ -9,33 +9,29 @@ import {
 } from '../employeesList/employeesSlice';
 import store from '../../app/store';
 import { EmployeeForm } from '../../components/EmployeeForm';
+import { ImageUploadForm } from '../uploadImage/ImageUploadForm';
 
 export const EditEmployeePage = ({ match }) => {
 	const { employeeId } = match.params;
 
-	const status = useSelector(
-		(state) => state.employees.status
+	const fetchStatus = useSelector((state) => state.employees.fetchStatus);
+	const updateStatus = useSelector((state) => state.employees.updateStatus);
+	const employeeToEdit = employeesSelectors.selectById(
+		store.getState(),
+		employeeId
 	);
-	const employeeToEdit = employeesSelectors.selectById(store.getState(), employeeId)
-
-	const [updateRequestStatus, setUpdateRequestStatus] = useState('idle')
 
 	const dispatch = useDispatch();
 	const history = useHistory();
 
 	useEffect(() => {
-		if (status === 'idle') {
+		if (fetchStatus === 'idle') {
 			dispatch(fetchEmployees());
 		}
-	}, [status, dispatch]);
+	}, [fetchStatus, dispatch]);
 
-	const onSubmit = async (employeeToUpdate) => {
-		setUpdateRequestStatus('pending')
-		const response = await dispatch(updateEmployee(employeeToUpdate));
-		if (response.error) {
-			window.alert(response.error.message)
-		}
-		setUpdateRequestStatus('idle')
+	const onSubmit = (employeeToUpdate) => {
+		dispatch(updateEmployee(employeeToUpdate));
 	};
 
 	// const validate = (values) => {
@@ -55,6 +51,7 @@ export const EditEmployeePage = ({ match }) => {
 				initialEmployee={employeeToEdit}
 				// validate={validate}
 			/>
+			<ImageUploadForm />
 		</div>
 	);
 };

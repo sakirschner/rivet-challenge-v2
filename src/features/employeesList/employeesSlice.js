@@ -8,7 +8,7 @@ import { employeeAPI } from '../../api/employeeAPI';
 const employeesAdapter = createEntityAdapter({
 	selectId: (employee) => employee.id,
 	sortComparer: (a, b) =>
-		a.id.toString().localeCompare(b.id, undefined, { numeric: true })
+		a.id.toString().localeCompare(b.id.toString(), undefined, { numeric: true })
 });
 
 export const fetchEmployees = createAsyncThunk(
@@ -18,14 +18,6 @@ export const fetchEmployees = createAsyncThunk(
 		return response;
 	}
 );
-
-// export const fetchEmployeeById = createAsyncThunk(
-// 	'employee/fetchEmployee',
-// 	async (employeeId) => {
-// 		const response = await employeeAPI.get(`/profile/${employeeId}`);
-// 		return response;
-// 	}
-// );
 
 export const updateEmployee = createAsyncThunk(
 	'employee/updateEmployee',
@@ -49,28 +41,36 @@ export const addEmployee = createAsyncThunk(
 const employeesSlice = createSlice({
 	name: 'employees',
 	initialState: employeesAdapter.getInitialState({
-		loadingStatus: 'idle',
+		fetchStatus: 'idle',
+		updateStatus: 'idle',
+		addStatus: 'idle',
 		error: null,
-		updateStatus: 
 	}),
 	reducers: {},
 	extraReducers: {
 		[fetchEmployees.pending]: (state) => {
-			state.status = 'loading';
+			state.fetchStatus = 'loading';
 		},
 		[fetchEmployees.fulfilled]: (state, { payload }) => {
-			state.status = 'succeeded';
+			state.fetchStatus = 'succeeded';
 			employeesAdapter.setAll(state, payload);
 		},
 		[fetchEmployees.rejected]: (state, { error }) => {
-			state.status = 'failed';
+			state.fetchStatus = 'failed';
 			state.error = error.message;
+		},
+		[updateEmployee.pending]: (state) => {
+			state.updateStatus = 'loading';
 		},
 		[updateEmployee.fulfilled]: (state, { payload }) => {
 			employeesAdapter.updateOne(state, {
 				id: payload.id,
 				changes: payload
 			});
+		},
+		[updateEmployee.rejected]: (state, { error }) => {
+			state.updateStatus = 'failed';
+			state.error = error.message;
 		},
 		[addEmployee.fulfilled]: (state, { payload }) => {
 			employeesAdapter.addOne(state, payload);
@@ -81,12 +81,5 @@ const employeesSlice = createSlice({
 export const employeesSelectors = employeesAdapter.getSelectors(
 	(state) => state.employees
 );
-
-// export const selectAllEmployees = (state) => state.employees.employees;
-
-// export const selectEmployeeById = (state, employeeId) =>
-// 	state.employees.employees.find(
-// 		(employee) => employee.id === Number(employeeId)
-// 	);
 
 export default employeesSlice.reducer;

@@ -8,26 +8,26 @@ import store from '../../app/store';
 
 export const EmployeesListPage = () => {
 	const employees = employeesSelectors.selectAll(store.getState());
-	const status = useSelector((state) => state.employees.status);
+	const fetchStatus = useSelector((state) => state.employees.fetchStatus);
 	const error = useSelector((state) => state.employees.error);
 
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		if (status === 'idle') {
+		if (fetchStatus === 'idle') {
 			dispatch(fetchEmployees());
 		}
-	}, [status, dispatch]);
+	}, [fetchStatus, dispatch]);
 
 	return (
 		<div>
-			{status === 'loading' ? <h1>Loading...</h1> : null}
-			{status === 'succeeded' ? (
+			{fetchStatus === 'loading' ? <h1>Loading...</h1> : null}
+			{fetchStatus === 'succeeded' ? (
 				<div>
 					<EmployeesList employees={employees} />
 				</div>
 			) : null}
-			{status === 'failed' ? <h1>{error}</h1> : null}
+			{fetchStatus === 'failed' ? <h1>{error}</h1> : null}
 		</div>
 	);
 };
