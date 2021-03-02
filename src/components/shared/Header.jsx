@@ -7,22 +7,16 @@ import './Header.css';
 export const Header = () => {
     const location = useLocation();
 
-    const renderButton = () => {
-		if (location.pathname !== '/add') {
-			return (
-				<Link to='/add' className='add-button'>
-					<button className="secondary">ADD EMPLOYEE</button>
-				</Link>
-			);
-		}
-	};
-
 	return (
 		<div className='header'>
 			<Link to={'/'}>
 				<img src={logo} alt='logo' className='logo' />
 			</Link>
-			{renderButton()}
+			{location.pathname !== '/add' ? (
+				<Link to='/add' className='add-button'>
+					<button className="secondary">ADD EMPLOYEE</button>
+				</Link>
+			) : null}
 		</div>
 	);
 };

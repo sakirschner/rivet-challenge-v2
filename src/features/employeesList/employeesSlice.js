@@ -49,8 +49,9 @@ export const addEmployee = createAsyncThunk(
 const employeesSlice = createSlice({
 	name: 'employees',
 	initialState: employeesAdapter.getInitialState({
-		status: 'idle',
-		error: null
+		loadingStatus: 'idle',
+		error: null,
+		updateStatus: 
 	}),
 	reducers: {},
 	extraReducers: {
