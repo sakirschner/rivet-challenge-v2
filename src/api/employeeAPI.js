@@ -18,8 +18,9 @@ export async function employeeAPI(endpoint, { body, ...customConfig } = {}) {
 		if (response.ok) {
 			return data;
 		}
-		console.error(new Error(`${response.status} ${response.statusText}`));
-		throw new Error(response.statusText);
+		const error = new Error(`${response.status} ${response.statusText}`)
+		console.error(error);
+		throw new Error(error);
 	} catch (err) {
 		return Promise.reject(err);
 	}
@@ -29,10 +30,10 @@ employeeAPI.get = function (endpoint, customConfig = {}) {
 	return employeeAPI(endpoint, { ...customConfig, method: 'GET' });
 };
 
-employeeAPI.put = function (endpoint, body , customConfig = {}) {
-	return employeeAPI(endpoint, {...customConfig, body, method: 'PUT'})
+employeeAPI.put = function (endpoint, body, customConfig = {}) {
+	return employeeAPI(endpoint, { ...customConfig, body, method: 'PUT' });
 };
 
-employeeAPI.post = function (endpoint, body , customConfig = {}) {
-	return employeeAPI(endpoint, {...customConfig, body, method: 'POST'})
+employeeAPI.post = function (endpoint, body, customConfig = {}) {
+	return employeeAPI(endpoint, { ...customConfig, body, method: 'POST' });
 };

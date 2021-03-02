@@ -11,11 +11,17 @@ import store from '../../app/store';
 export const EmployeeDetails = ({ match }) => {
 	const { employeeId } = match.params;
 
-	const status = useSelector(
-		(state) => state.employees.status
-	);
+	const status = useSelector((state) => state.employees.status);
 	const error = useSelector((state) => state.employees.error);
-	const employee = employeesSelectors.selectById(store.getState(), employeeId)
+	
+	const employee = employeesSelectors.selectById(
+		store.getState(),
+		employeeId
+	);
+
+	// const employee = useSelector((state) =>
+	// 	selectEmployeeById(state, employeeId)
+	// );
 
 	const dispatch = useDispatch();
 
@@ -24,6 +30,12 @@ export const EmployeeDetails = ({ match }) => {
 			dispatch(fetchEmployees());
 		}
 	}, [status, dispatch]);
+
+	// useEffect(() => {
+	// 	if (!employee) {
+	// 		dispatch(fetchEmployeeById(employeeId));
+	// 	}
+	// }, [employee, employeeId, employeeStatus, dispatch]);
 
 	return (
 		<div>

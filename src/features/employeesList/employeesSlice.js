@@ -1,9 +1,14 @@
-import { createAsyncThunk, createSlice, createEntityAdapter } from '@reduxjs/toolkit';
+import {
+	createAsyncThunk,
+	createSlice,
+	createEntityAdapter
+} from '@reduxjs/toolkit';
 import { employeeAPI } from '../../api/employeeAPI';
 
 const employeesAdapter = createEntityAdapter({
 	selectId: (employee) => employee.id,
-	sortComparer: (a, b) => a.id.toString().localeCompare(b.id, undefined, {numeric: true})
+	sortComparer: (a, b) =>
+		a.id.toString().localeCompare(b.id, undefined, { numeric: true })
 });
 
 export const fetchEmployees = createAsyncThunk(
@@ -14,10 +19,21 @@ export const fetchEmployees = createAsyncThunk(
 	}
 );
 
+// export const fetchEmployeeById = createAsyncThunk(
+// 	'employee/fetchEmployee',
+// 	async (employeeId) => {
+// 		const response = await employeeAPI.get(`/profile/${employeeId}`);
+// 		return response;
+// 	}
+// );
+
 export const updateEmployee = createAsyncThunk(
 	'employee/updateEmployee',
 	async ({ employee }) => {
-		const response = await employeeAPI.put(`/profile/${employee.id}`, employee);
+		const response = await employeeAPI.put(
+			`/profile/${employee.id}`,
+			employee
+		);
 		return response;
 	}
 );
@@ -28,7 +44,7 @@ export const addEmployee = createAsyncThunk(
 		const response = await employeeAPI.post(`/profile`, employee);
 		return response;
 	}
-)
+);
 
 const employeesSlice = createSlice({
 	name: 'employees',
@@ -43,7 +59,7 @@ const employeesSlice = createSlice({
 		},
 		[fetchEmployees.fulfilled]: (state, { payload }) => {
 			state.status = 'succeeded';
-			employeesAdapter.setAll(state, payload)
+			employeesAdapter.setAll(state, payload);
 		},
 		[fetchEmployees.rejected]: (state, { error }) => {
 			state.status = 'failed';
@@ -53,16 +69,23 @@ const employeesSlice = createSlice({
 			employeesAdapter.updateOne(state, {
 				id: payload.id,
 				changes: payload
-			})
+			});
 		},
 		[addEmployee.fulfilled]: (state, { payload }) => {
-			employeesAdapter.addOne(state, payload)
+			employeesAdapter.addOne(state, payload);
 		}
 	}
 });
 
 export const employeesSelectors = employeesAdapter.getSelectors(
 	(state) => state.employees
-)
+);
+
+// export const selectAllEmployees = (state) => state.employees.employees;
+
+// export const selectEmployeeById = (state, employeeId) =>
+// 	state.employees.employees.find(
+// 		(employee) => employee.id === Number(employeeId)
+// 	);
 
 export default employeesSlice.reducer;

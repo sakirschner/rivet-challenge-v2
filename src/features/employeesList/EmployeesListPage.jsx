@@ -24,9 +24,6 @@ export const EmployeesListPage = () => {
 			{status === 'loading' ? <h1>Loading...</h1> : null}
 			{status === 'succeeded' ? (
 				<div>
-					<Link to='/add'>
-						<button>Add Employee</button>
-					</Link>
 					<EmployeesList employees={employees} />
 				</div>
 			) : null}

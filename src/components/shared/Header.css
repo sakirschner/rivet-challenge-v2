@@ -1,0 +1,17 @@
+.header {
+    background-color: #002345;
+    position: fixed;
+    width: 100%;
+    z-index: 1;
+    display: flex;
+    justify-content: space-between;
+}
+
+.logo {
+    width: 150px;
+}
+
+.add-button {
+    align-self: center;
+    margin-right: 20px;
+}

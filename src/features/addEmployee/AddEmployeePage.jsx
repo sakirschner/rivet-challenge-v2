@@ -7,20 +7,20 @@ import { addEmployee } from '../employeesList/employeesSlice'
 import { EmployeeForm } from '../../components/EmployeeForm';
 
 export const AddEmployeePage = () => {
-    const [updateRequestStatus, setUpdateRequestStatus] = useState('idle')
+    const [addRequestStatus, setAddRequestStatus] = useState('idle')
 
     const dispatch = useDispatch();
     const history = useHistory();
 
     const onSubmit = async (employeeToAdd) => {
-		setUpdateRequestStatus('pending')
+		setAddRequestStatus('pending')
 		const response = await dispatch(addEmployee(employeeToAdd));
 		if (response.error) {
 			window.alert(response.error.message)
 		}
-		setUpdateRequestStatus('idle')
+		setAddRequestStatus('idle')
 	};
-    
+
     return (
 		<div>
 			<EmployeeForm
