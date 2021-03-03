@@ -3,7 +3,6 @@ import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 import { addEmployee } from '../employeesList/employeesSlice'
-
 import { EmployeeForm } from '../../components/EmployeeForm';
 
 export const AddEmployeePage = () => {

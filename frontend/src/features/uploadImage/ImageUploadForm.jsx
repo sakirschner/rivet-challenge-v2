@@ -1,14 +1,18 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+
+import { addImage } from './imageSlice';
+
 
 export const ImageUploadForm = () => {
 	const [fileInputState, setFileInputState] = useState('');
-	const [selectedFile, setSelectedFile] = useState('');
 	const [previewSource, setPreviewSource] = useState('');
+
+	const dispatch = useDispatch();
 
 	const handleFileInputChange = (e) => {
 		const file = e.target.files[0];
 		previewFile(file);
-		setSelectedFile(file);
 		setFileInputState(e.target.value);
 	};
 
@@ -24,22 +28,9 @@ export const ImageUploadForm = () => {
 		e.preventDefault();
         if (!previewSource) {
             return;
-        }
-        uploadImage(previewSource);
+		}
+		dispatch(addImage(previewSource))
     };
-    
-    const uploadImage = async (base64EncodedImage) => {
-        console.log(base64EncodedImage)
-        try {
-            await fetch('/api/upload', {
-                method: 'POST',
-                body: JSON.stringify({data: base64EncodedImage}),
-                headers: {'Content-type': 'application/json'}
-            })
-        } catch (err) {
-            console.error(err)
-        }
-    }
 
 	return (
 		<>
