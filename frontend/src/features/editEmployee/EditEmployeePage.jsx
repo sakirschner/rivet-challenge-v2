@@ -8,15 +8,15 @@ import {
 	updateEmployee
 } from '../employeesList/employeesSlice';
 import store from '../../app/store';
-import { EmployeeForm } from '../../components/EmployeeForm';
-import { ImageUploadForm } from '../uploadImage/ImageUploadForm';
+import { EmployeeForm } from '../../components/forms/EmployeeForm';
 
 export const EditEmployeePage = ({ match }) => {
 	const { employeeId } = match.params;
 
 	const fetchStatus = useSelector((state) => state.employees.fetchStatus);
 	const updateStatus = useSelector((state) => state.employees.updateStatus);
-	const employeeToEdit = employeesSelectors.selectById(
+
+	const employeeToUpdate = employeesSelectors.selectById(
 		store.getState(),
 		employeeId
 	);
@@ -30,9 +30,13 @@ export const EditEmployeePage = ({ match }) => {
 		}
 	}, [fetchStatus, dispatch]);
 
-	const onSubmit = (employeeToUpdate) => {
-		dispatch(updateEmployee(employeeToUpdate));
+	const handleSubmit = (employee) => {
+		dispatch(updateEmployee(employee));
 	};
+
+	const handleCancel = () => {
+		history.push(`/profile/${employeeId}`)
+	}
 
 	// const validate = (values) => {
 	// 	const errors = {};
@@ -47,11 +51,11 @@ export const EditEmployeePage = ({ match }) => {
 	return (
 		<div>
 			<EmployeeForm
-				onSubmit={onSubmit}
-				initialEmployee={employeeToEdit}
+				onSubmit={handleSubmit}
+				onCancel={handleCancel}
+				initialEmployee={employeeToUpdate}
 				// validate={validate}
 			/>
-			<ImageUploadForm />
 		</div>
 	);
 };

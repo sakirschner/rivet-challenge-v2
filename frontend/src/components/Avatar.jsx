@@ -19,7 +19,11 @@ export const Avatar = ({ employee, destination }) => {
 					/>
 				</div>
 			) : (
-				<FontAwesomeIcon icon={faUserCircle} size='5x' className='icon'/>
+				<FontAwesomeIcon
+					icon={faUserCircle}
+					size={destination === 'EmployeesListItem' ? '5x' : '10x'}
+					className='icon'
+				/>
 			)}
 		</>
 	);

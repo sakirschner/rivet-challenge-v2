@@ -9,9 +9,10 @@ const initialState = {
 
 export const addImage = createAsyncThunk(
 	'image/addImage',
-	async (image) => {
-		const response = await imageAPI.post(`/api/upload`, image);
-		return response;
+	(image) => {
+		console.log('in here')
+		console.log(image)
+		return imageAPI.post(`/api/upload`, image);
 	}
 );
 

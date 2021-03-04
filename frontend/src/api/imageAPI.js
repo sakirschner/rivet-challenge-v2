@@ -24,5 +24,7 @@ export async function imageAPI(endpoint, { body, ...customConfig } = {}) {
 }
 
 imageAPI.post = function (endpoint, body, customConfig = {}) {
+	console.log('in post')
+	console.log(body)
 	return imageAPI(endpoint, { ...customConfig, body, method: 'POST' });
 };

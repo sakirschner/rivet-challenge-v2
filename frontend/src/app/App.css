@@ -22,6 +22,10 @@ button {
 	background-color: #002345;
 }
 
+.primary:hover {
+	background-color: #023f7c;
+}
+
 .primary-outlined {
 	background-color: transparent;
 	color: #002345;
@@ -37,11 +41,14 @@ button {
 
 .secondary {
 	background-color: #f05237;
-	color: #ffffff;
-	border-radius: 5px;
-	font-size: 14px;
 }
 
 .secondary:hover {
 	background-color: #ff674d;
+}
+
+.primary, .secondary {
+	color: #ffffff;
+	border-radius: 5px;
+	font-size: 14px;
 }

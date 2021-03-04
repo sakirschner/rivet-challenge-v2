@@ -4,6 +4,7 @@ import {
 	createEntityAdapter
 } from '@reduxjs/toolkit';
 import { employeeAPI } from '../../api/employeeAPI';
+import { imageAPI } from '../../api/imageAPI';
 
 const employeesAdapter = createEntityAdapter({
 	selectId: (employee) => employee.id,
@@ -13,28 +14,25 @@ const employeesAdapter = createEntityAdapter({
 
 export const fetchEmployees = createAsyncThunk(
 	'employees/fetchEmployees',
-	async () => {
-		const response = await employeeAPI.get('/profiles');
-		return response;
+	() => {
+		return employeeAPI.get('/profiles');
 	}
 );
 
 export const updateEmployee = createAsyncThunk(
 	'employee/updateEmployee',
-	async ({ employee }) => {
-		const response = await employeeAPI.put(
+	({ employee }) => {
+		return employeeAPI.put(
 			`/profile/${employee.id}`,
 			employee
 		);
-		return response;
 	}
 );
 
 export const addEmployee = createAsyncThunk(
 	'employee/addEmployee',
-	async ({ employee }) => {
-		const response = await employeeAPI.post(`/profile`, employee);
-		return response;
+	({ employee }) => {
+		return employeeAPI.post(`/profile`, employee);
 	}
 );
 
