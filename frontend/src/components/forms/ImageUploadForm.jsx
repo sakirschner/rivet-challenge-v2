@@ -5,26 +5,15 @@ import { faPen } from '@fortawesome/free-solid-svg-icons';
 
 import { Avatar } from '../Avatar';
 import { Modal } from '../shared/Modal';
+import { ImagePreview } from './ImagePreview';
 
 import './ImageUploadForm.css';
 
-export const ImageUploadForm = (props) => {
-	const employee = props.state.employee[0];
+export const ImageUploadForm = ({employee, setEmployee}) => {
+	const [showModal, setShowModal] = useState(false);
 
-	const {
-		showModal: [showModal, setShowModal]
-	} = {
-		showModal: useState(),
-		...(props.state || {})
-	};
-
-	const handleModal = (e) => {
-		e.preventDefault();
+	const handleModal = () => {
 		setShowModal(!showModal);
-		// if (!showModal) {
-		// 	setPreviewSource('');
-		// 	setShowConfirmation(false);
-		// }
 	};
 
 	return (
@@ -35,8 +24,9 @@ export const ImageUploadForm = (props) => {
 			<div className='edit-btn' onClick={handleModal}>
 				<FontAwesomeIcon icon={faPen} className='pencil-icon' />
 			</div>
-			<div className={showModal ? 'mask active' : 'mask'}></div>
-			<Modal {...props} destination='ImageUploadForm' />
+			<Modal showModal={showModal} onClickClose={handleModal}>
+				<ImagePreview employee={employee} setEmployee={setEmployee} closeModal={handleModal} />
+			</Modal>
 		</>
 	);
 };

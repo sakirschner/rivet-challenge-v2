@@ -1,29 +1,26 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { unwrapResult } from '@reduxjs/toolkit';
 
 import {
+	updateEmployee,
 	employeesSelectors,
-	fetchEmployees,
-	updateEmployee
+	fetchEmployees
 } from '../employeesList/employeesSlice';
-import store from '../../app/store';
 import { EmployeeForm } from '../../components/forms/EmployeeForm';
-import { unwrapResult } from '@reduxjs/toolkit';
+import store from '../../app/store';
 
 export const EditEmployeePage = ({ match }) => {
 	const { employeeId } = match.params;
 
-	const fetchStatus = useSelector((state) => state.employees.fetchStatus);
-	const error = useSelector((state) => state.employees.error);
-
-	const employeeToUpdate = employeesSelectors.selectById(
-		store.getState(),
-		employeeId
+	const [employee, setEmployee] = useState(
+		employeesSelectors.selectById(store.getState(), employeeId) || {}
 	);
 
+	const fetchStatus = useSelector((state) => state.employees.fetchStatus);
+
 	const dispatch = useDispatch();
-	const history = useHistory();
 
 	useEffect(() => {
 		if (fetchStatus === 'idle') {
@@ -31,11 +28,20 @@ export const EditEmployeePage = ({ match }) => {
 		}
 	}, [fetchStatus, dispatch]);
 
+	useEffect(() => {
+		if (fetchStatus === 'succeeded') {
+			setEmployee(
+				employeesSelectors.selectById(store.getState(), employeeId)
+			);
+		}
+	}, [fetchStatus, setEmployee, employeeId]);
+
+	const error = useSelector((state) => state.employees.error);
+
+	const history = useHistory();
+
 	const handleSubmit = async (employee) => {
-		const response = await dispatch(updateEmployee(employee)).then(
-			unwrapResult
-		);
-		console.log(response);
+		await dispatch(updateEmployee(employee)).then(unwrapResult);
 		if (!error) {
 			history.push(`/profile/${employeeId}`);
 		}
@@ -48,9 +54,10 @@ export const EditEmployeePage = ({ match }) => {
 	return (
 		<div>
 			<EmployeeForm
-				onSubmit={handleSubmit}
-				onCancel={handleCancel}
-				initialEmployee={employeeToUpdate}
+				onFormSubmit={handleSubmit}
+				onFormCancel={handleCancel}
+				employee={employee}
+				setEmployee={setEmployee}
 			/>
 		</div>
 	);

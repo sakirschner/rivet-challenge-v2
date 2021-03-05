@@ -4,39 +4,12 @@ import { unwrapResult } from '@reduxjs/toolkit';
 
 import { addImage } from '../../features/uploadImage/imageSlice';
 
-import './ImagePreview.css'
+import './ImagePreview.css';
 
-export const ImagePreview = (props) => {
-	const {
-		fileInputState: [fileInputState, setFileInputState]
-	} = {
-		fileInputState: useState(),
-		...(props.state || {})
-	};
-	const {
-		previewSource: [previewSource, setPreviewSource]
-	} = {
-		previewSource: useState(),
-		...(props.state || {})
-	};
-	const {
-		showConfirmation: [showConfirmation, setShowConfirmation]
-	} = {
-		showConfirmation: useState(),
-		...(props.state || {})
-    };
-    const {
-		employee: [employee, setEmployee]
-	} = {
-		employee: useState(),
-		...(props.state || {})
-	};
-	const {
-		showModal: [showModoal, setShowModal]
-	} = {
-		showModal: useState(),
-		...(props.state || {})
-	};
+export const ImagePreview = ({ employee, setEmployee, closeModal }) => {
+	const [showConfirmation, setShowConfirmation] = useState(false);
+	const [fileInputState, setFileInputState] = useState('');
+	const [previewSource, setPreviewSource] = useState('');
 
 	const clickUploadImage = (e) => {
 		e.preventDefault();
@@ -53,7 +26,6 @@ export const ImagePreview = (props) => {
 	};
 
 	const previewFile = (file) => {
-		console.log('here');
 		const reader = new FileReader();
 		reader.readAsDataURL(file);
 		reader.onloadend = () => {
@@ -62,19 +34,18 @@ export const ImagePreview = (props) => {
 		setShowConfirmation(true);
 	};
 
-    const dispatch = useDispatch();
+	const dispatch = useDispatch();
 
 	const handleSubmitImage = async (e) => {
 		e.preventDefault();
 		if (!previewSource) {
 			return;
 		}
-		setShowModal(false);
 		const result = await dispatch(addImage(previewSource)).then(
 			unwrapResult
 		);
+		closeModal();
 		setEmployee({ ...employee, photo: result.url });
-		
 	};
 
 	return (
@@ -82,7 +53,7 @@ export const ImagePreview = (props) => {
 			{previewSource ? (
 				<div className='generic-container'>
 					<div className='preview-mask'>
-						<img src={previewSource} alt='chosen photo' />
+						<img src={previewSource} alt='chosen' />
 					</div>
 				</div>
 			) : null}

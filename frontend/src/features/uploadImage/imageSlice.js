@@ -7,14 +7,9 @@ const initialState = {
 	error: null
 };
 
-export const addImage = createAsyncThunk(
-	'image/addImage',
-	(image) => {
-		console.log('in here')
-		console.log(image)
-		return imageAPI.post(`/api/upload`, image);
-	}
-);
+export const addImage = createAsyncThunk('image/addImage', (image) => {
+	return imageAPI.post(`/api/upload`, image);
+});
 
 const imageSlice = createSlice({
 	name: 'image',
@@ -25,8 +20,8 @@ const imageSlice = createSlice({
 			state.status = 'loading';
 		},
 		[addImage.fulfilled]: (state, { payload }) => {
-            state.status = 'succeeded';
-            state.image = payload;
+			state.status = 'succeeded';
+			state.image = payload;
 		},
 		[addImage.rejected]: (state, { error }) => {
 			state.status = 'failed';

@@ -1,17 +1,15 @@
-import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { ImageUploadForm } from './ImageUploadForm';
 
 import './EmployeeForm.css';
 
-export const EmployeeForm = ({ initialEmployee, onSubmit, onCancel }) => {
-	const [employee, setEmployee] = useState(initialEmployee || {});
-	const [fileInputState, setFileInputState] = useState('');
-	const [previewSource, setPreviewSource] = useState('');
-	const [showModal, setShowModal] = useState(false);
-	const [showConfirmation, setShowConfirmation] = useState(false);
-
+export const EmployeeForm = ({
+	employee,
+	setEmployee,
+	onFormSubmit,
+	onFormCancel
+}) => {
 	const imageStatus = useSelector((state) => state.image.status);
 
 	const handleChange = (event) => {
@@ -23,26 +21,17 @@ export const EmployeeForm = ({ initialEmployee, onSubmit, onCancel }) => {
 
 	const handleSubmitForm = (e) => {
 		e.preventDefault();
-		console.log(employee);
-		onSubmit({ employee });
+		onFormSubmit({ employee });
 	};
 
 	const handleFormCancel = (e) => {
 		e.preventDefault();
-		onCancel();
+		onFormCancel();
 	};
 
 	return (
 		<div className='form-container'>
-			<ImageUploadForm
-				state={{
-					employee: [employee, setEmployee],
-					fileInputState: [fileInputState, setFileInputState],
-					previewSource: [previewSource, setPreviewSource],
-					showModal: [showModal, setShowModal],
-					showConfirmation: [showConfirmation, setShowConfirmation]
-				}}
-			/>
+			<ImageUploadForm employee={employee} setEmployee={setEmployee} />
 			<form>
 				<div className='combo'>
 					<div className='col-6'>
@@ -89,10 +78,11 @@ export const EmployeeForm = ({ initialEmployee, onSubmit, onCancel }) => {
 						</label>
 						<input
 							className='input-control'
-							type='text'
+							type='email'
 							name='email'
 							value={employee.email}
 							onChange={handleChange}
+							required
 						/>
 					</div>
 				</div>
