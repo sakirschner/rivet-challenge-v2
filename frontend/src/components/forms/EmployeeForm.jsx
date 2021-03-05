@@ -9,6 +9,8 @@ export const EmployeeForm = ({ initialEmployee, onSubmit, onCancel }) => {
 	const [employee, setEmployee] = useState(initialEmployee || {});
 	const [fileInputState, setFileInputState] = useState('');
 	const [previewSource, setPreviewSource] = useState('');
+	const [showModal, setShowModal] = useState(false);
+	const [showConfirmation, setShowConfirmation] = useState(false);
 
 	const imageStatus = useSelector((state) => state.image.status);
 
@@ -22,8 +24,6 @@ export const EmployeeForm = ({ initialEmployee, onSubmit, onCancel }) => {
 	const handleSubmitForm = (e) => {
 		e.preventDefault();
 		console.log(employee);
-		// const err = validate(employee);
-		// setErrors({ ...errors, ...err });
 		onSubmit({ employee });
 	};
 
@@ -38,7 +38,9 @@ export const EmployeeForm = ({ initialEmployee, onSubmit, onCancel }) => {
 				state={{
 					employee: [employee, setEmployee],
 					fileInputState: [fileInputState, setFileInputState],
-					previewSource: [previewSource, setPreviewSource]
+					previewSource: [previewSource, setPreviewSource],
+					showModal: [showModal, setShowModal],
+					showConfirmation: [showConfirmation, setShowConfirmation]
 				}}
 			/>
 			<form>
@@ -161,11 +163,13 @@ export const EmployeeForm = ({ initialEmployee, onSubmit, onCancel }) => {
 			</form>
 			<div className='combo'>
 				<div className='col-sm-6'>
-					{imageStatus !== 'loading' ? (
+					{imageStatus === 'loading' ? (
+						<button disabled>Hang Tight...</button>
+					) : (
 						<button onClick={handleSubmitForm} className='primary'>
-							SUBMIT
+							SAVE
 						</button>
-					) : null}
+					)}
 				</div>
 				<div className='col-sm-6'>
 					<button onClick={handleFormCancel} className='secondary'>

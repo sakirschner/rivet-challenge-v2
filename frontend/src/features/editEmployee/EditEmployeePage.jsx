@@ -9,12 +9,13 @@ import {
 } from '../employeesList/employeesSlice';
 import store from '../../app/store';
 import { EmployeeForm } from '../../components/forms/EmployeeForm';
+import { unwrapResult } from '@reduxjs/toolkit';
 
 export const EditEmployeePage = ({ match }) => {
 	const { employeeId } = match.params;
 
 	const fetchStatus = useSelector((state) => state.employees.fetchStatus);
-	const updateStatus = useSelector((state) => state.employees.updateStatus);
+	const error = useSelector((state) => state.employees.error);
 
 	const employeeToUpdate = employeesSelectors.selectById(
 		store.getState(),
@@ -30,23 +31,19 @@ export const EditEmployeePage = ({ match }) => {
 		}
 	}, [fetchStatus, dispatch]);
 
-	const handleSubmit = (employee) => {
-		dispatch(updateEmployee(employee));
+	const handleSubmit = async (employee) => {
+		const response = await dispatch(updateEmployee(employee)).then(
+			unwrapResult
+		);
+		console.log(response);
+		if (!error) {
+			history.push(`/profile/${employeeId}`);
+		}
 	};
 
 	const handleCancel = () => {
-		history.push(`/profile/${employeeId}`)
-	}
-
-	// const validate = (values) => {
-	// 	const errors = {};
-
-	// 	if (values.name === '') {
-	// 		errors.name = 'Please enter a name';
-	// 	}
-
-	// 	return errors;
-	// };
+		history.push(`/profile/${employeeId}`);
+	};
 
 	return (
 		<div>
@@ -54,7 +51,6 @@ export const EditEmployeePage = ({ match }) => {
 				onSubmit={handleSubmit}
 				onCancel={handleCancel}
 				initialEmployee={employeeToUpdate}
-				// validate={validate}
 			/>
 		</div>
 	);

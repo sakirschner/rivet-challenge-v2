@@ -1,10 +1,12 @@
-.avatar-container {
+.preview-mask {
 	border-radius: 50%;
 	position: relative;
-    overflow: hidden;
+	overflow: hidden;
+	width: 200px;
+	height: 200px;
 }
 
-.avatar-container img {
+.preview-mask img{
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
@@ -17,20 +19,18 @@
 	transform: translate(-50%, -50%);
 }
 
-.small {
-    width: 80px;
-    height: 80px;
+.generic-input {
+	display: none;
 }
 
-.large {
-    width: 250px;
-    height: 250px;
+.generic-container {
+	justify-content: center;
+	display: flex;
+	width: 100%;
 }
 
-.small img, .large img {
-    width: 100%;
-}
-
-.icon {
-	color: #002345;
+.generic-container button {
+	margin: 20px 10px;
+	flex: auto;
+	width: 100%;
 }

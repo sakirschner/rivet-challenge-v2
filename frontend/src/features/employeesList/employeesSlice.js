@@ -4,7 +4,6 @@ import {
 	createEntityAdapter
 } from '@reduxjs/toolkit';
 import { employeeAPI } from '../../api/employeeAPI';
-import { imageAPI } from '../../api/imageAPI';
 
 const employeesAdapter = createEntityAdapter({
 	selectId: (employee) => employee.id,
@@ -65,6 +64,7 @@ const employeesSlice = createSlice({
 				id: payload.id,
 				changes: payload
 			});
+			state.error = null;
 		},
 		[updateEmployee.rejected]: (state, { error }) => {
 			state.updateStatus = 'failed';
