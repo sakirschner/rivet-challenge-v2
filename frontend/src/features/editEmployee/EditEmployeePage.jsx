@@ -5,20 +5,19 @@ import { unwrapResult } from '@reduxjs/toolkit';
 
 import {
 	updateEmployee,
-	employeesSelectors,
-	fetchEmployees
+	fetchEmployees,
+	selectEmployeeById
 } from '../employeesList/employeesSlice';
 import { EmployeeForm } from '../../components/forms/EmployeeForm';
-import store from '../../app/store';
+// import { SetEmployeeForForm } from './SetEmployeeForForm';
 
 export const EditEmployeePage = ({ match }) => {
 	const { employeeId } = match.params;
 
-	const [employee, setEmployee] = useState(
-		employeesSelectors.selectById(store.getState(), employeeId) || {}
-	);
+	const [employee, setEmployee] = useState(useSelector((state) => selectEmployeeById(state, employeeId)));
 
 	const fetchStatus = useSelector((state) => state.employees.fetchStatus);
+	const error = useSelector((state) => state.employees.error);
 
 	const dispatch = useDispatch();
 
@@ -29,14 +28,10 @@ export const EditEmployeePage = ({ match }) => {
 	}, [fetchStatus, dispatch]);
 
 	useEffect(() => {
-		if (fetchStatus === 'succeeded') {
-			setEmployee(
-				employeesSelectors.selectById(store.getState(), employeeId)
-			);
-		}
-	}, [fetchStatus, setEmployee, employeeId]);
-
-	const error = useSelector((state) => state.employees.error);
+		if (employee === {}) {
+			return
+		} 
+	}, [employee]);
 
 	const history = useHistory();
 
@@ -52,13 +47,13 @@ export const EditEmployeePage = ({ match }) => {
 	};
 
 	return (
-		<div>
+		<>
 			<EmployeeForm
 				onFormSubmit={handleSubmit}
 				onFormCancel={handleCancel}
 				employee={employee}
 				setEmployee={setEmployee}
 			/>
-		</div>
+		</>
 	);
 };

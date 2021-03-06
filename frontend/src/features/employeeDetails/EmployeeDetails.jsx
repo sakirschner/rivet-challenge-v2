@@ -3,22 +3,18 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import {
-	employeesSelectors,
+	selectEmployeeById,
 	fetchEmployees
 } from '../employeesList/employeesSlice';
-import store from '../../app/store';
 import { Avatar } from '../../components/Avatar';
 
 export const EmployeeDetails = ({ match }) => {
 	const { employeeId } = match.params;
 
+	const employee =
+		useSelector((state) => selectEmployeeById(state, employeeId)) || {};
 	const fetchStatus = useSelector((state) => state.employees.fetchStatus);
 	const error = useSelector((state) => state.employees.error);
-	
-	const employee = employeesSelectors.selectById(
-		store.getState(),
-		employeeId
-	);
 
 	const dispatch = useDispatch();
 

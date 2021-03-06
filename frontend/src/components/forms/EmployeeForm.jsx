@@ -1,3 +1,4 @@
+import React from 'react'
 import { useSelector } from 'react-redux';
 
 import { ImageUploadForm } from './ImageUploadForm';
@@ -12,8 +13,8 @@ export const EmployeeForm = ({
 }) => {
 	const imageStatus = useSelector((state) => state.image.status);
 
-	const handleChange = (event) => {
-		const target = event.target;
+	const handleChange = (e) => {
+		const target = e.target;
 		const value = target.value;
 		const name = target.name;
 		setEmployee({ ...employee, [name]: value });

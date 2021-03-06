@@ -9,7 +9,7 @@ import { ImagePreview } from './ImagePreview';
 
 import './ImageUploadForm.css';
 
-export const ImageUploadForm = ({employee, setEmployee}) => {
+export const ImageUploadForm = ({ employee, setEmployee }) => {
 	const [showModal, setShowModal] = useState(false);
 
 	const handleModal = () => {
@@ -25,7 +25,11 @@ export const ImageUploadForm = ({employee, setEmployee}) => {
 				<FontAwesomeIcon icon={faPen} className='pencil-icon' />
 			</div>
 			<Modal showModal={showModal} onClickClose={handleModal}>
-				<ImagePreview employee={employee} setEmployee={setEmployee} closeModal={handleModal} />
+				<ImagePreview
+					employee={employee}
+					setEmployee={setEmployee}
+					closeModal={handleModal}
+				/>
 			</Modal>
 		</>
 	);

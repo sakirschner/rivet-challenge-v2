@@ -8,7 +8,9 @@ import { employeeAPI } from '../../api/employeeAPI';
 const employeesAdapter = createEntityAdapter({
 	selectId: (employee) => employee.id,
 	sortComparer: (a, b) =>
-		a.id.toString().localeCompare(b.id.toString(), undefined, { numeric: true })
+		a.id
+			.toString()
+			.localeCompare(b.id.toString(), undefined, { numeric: true })
 });
 
 export const fetchEmployees = createAsyncThunk(
@@ -21,10 +23,7 @@ export const fetchEmployees = createAsyncThunk(
 export const updateEmployee = createAsyncThunk(
 	'employee/updateEmployee',
 	({ employee }) => {
-		return employeeAPI.put(
-			`/profile/${employee.id}`,
-			employee
-		);
+		return employeeAPI.put(`/profile/${employee.id}`, employee);
 	}
 );
 
@@ -43,7 +42,6 @@ const employeesSlice = createSlice({
 		addStatus: 'idle',
 		error: null,
 	}),
-	reducers: {},
 	extraReducers: {
 		[fetchEmployees.pending]: (state) => {
 			state.fetchStatus = 'loading';
@@ -76,8 +74,11 @@ const employeesSlice = createSlice({
 	}
 });
 
-export const employeesSelectors = employeesAdapter.getSelectors(
-	(state) => state.employees
-);
+export const { setEmployeeFromForm } = employeesSlice.actions;
+
+export const {
+	selectAll: selectAllEmployees,
+	selectById: selectEmployeeById
+} = employeesAdapter.getSelectors((state) => state.employees);
 
 export default employeesSlice.reducer;

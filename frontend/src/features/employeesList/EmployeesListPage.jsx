@@ -1,13 +1,11 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
 
-import { fetchEmployees, employeesSelectors } from './employeesSlice';
+import { fetchEmployees, selectAllEmployees } from './employeesSlice';
 import { EmployeesList } from './EmployeesList';
-import store from '../../app/store';
 
 export const EmployeesListPage = () => {
-	const employees = employeesSelectors.selectAll(store.getState());
+	const employees = useSelector(selectAllEmployees);
 	const fetchStatus = useSelector((state) => state.employees.fetchStatus);
 	const error = useSelector((state) => state.employees.error);
 
