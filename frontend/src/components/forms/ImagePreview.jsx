@@ -1,15 +1,25 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { unwrapResult } from '@reduxjs/toolkit';
 
 import { addImage } from '../../features/uploadImage/imageSlice';
 
 import './ImagePreview.css';
 
-export const ImagePreview = ({ employee, setEmployee, closeModal }) => {
-	const [showConfirmation, setShowConfirmation] = useState(false);
+export const ImagePreview = ({
+	handleImageUpdate,
+	closeModal,
+	fileError,
+	setFileError,
+	previewSource,
+	setPreviewSource,
+	showConfirmation,
+	setShowConfirmation
+}) => {
 	const [fileInputState, setFileInputState] = useState('');
-	const [previewSource, setPreviewSource] = useState('');
+
+	const imageError = useSelector((state) => state.image.error);
+	const imageStatus = useSelector((state) => state.image.status);
 
 	const clickUploadImage = (e) => {
 		e.preventDefault();
@@ -17,8 +27,15 @@ export const ImagePreview = ({ employee, setEmployee, closeModal }) => {
 	};
 	const handleFileInputChange = (e) => {
 		const file = e.target.files[0];
-		previewFile(file);
-		setFileInputState(e.target.value);
+		const acceptedImageTypes = ['image/gif', 'image/jpeg', 'image/png'];
+		const fileSize = file.size / 1024 / 1024;
+		if (acceptedImageTypes.includes(file['type']) && fileSize < 10) {
+			setFileError(false);
+			previewFile(file);
+			setFileInputState(e.target.value);
+		} else {
+			setFileError(true);
+		}
 	};
 
 	const resetValue = (e) => {
@@ -38,29 +55,39 @@ export const ImagePreview = ({ employee, setEmployee, closeModal }) => {
 
 	const handleSubmitImage = async (e) => {
 		e.preventDefault();
-		if (!previewSource) {
-			return;
-		}
 		const result = await dispatch(addImage(previewSource)).then(
 			unwrapResult
 		);
+		handleImageUpdate(result.url);
 		closeModal();
-		setEmployee({ ...employee, photo: result.url });
 	};
 
 	return (
 		<>
-			{previewSource ? (
-				<div className='generic-container'>
+			<div className='generic-container'>
+				{previewSource ? (
 					<div className='preview-mask'>
 						<img src={previewSource} alt='chosen' />
 					</div>
-				</div>
-			) : null}
+				) : null}
+			</div>
+			<div className='generic-container message'>
+				{imageStatus === 'failed' ? <span>{imageError}</span> : null}
+				{fileError ? (
+					<span>File must be an image less than 10mb</span>
+				) : null}
+			</div>
+
 			<div className='generic-container'>
-				<button className='primary' onClick={clickUploadImage}>
-					UPLOAD IMAGE
-				</button>
+				{imageStatus === 'loading' ? (
+					<button disabled>
+						HANG TIGHT...
+					</button>
+				) : (
+					<button className='primary' onClick={clickUploadImage}>
+						UPLOAD IMAGE
+					</button>
+				)}
 				<input
 					name='image'
 					type='file'
@@ -68,9 +95,9 @@ export const ImagePreview = ({ employee, setEmployee, closeModal }) => {
 					value={fileInputState}
 					onChange={handleFileInputChange}
 					onClick={resetValue}
-					className='generic-input'
+					className='hidden-input'
 				/>
-				{showConfirmation ? (
+				{showConfirmation && imageStatus !== 'loading' ? (
 					<button className='secondary' onClick={handleSubmitImage}>
 						SUBMIT
 					</button>

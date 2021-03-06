@@ -62,6 +62,7 @@ const employeesSlice = createSlice({
 				id: payload.id,
 				changes: payload
 			});
+			state.updateStatus = 'succeeded';
 			state.error = null;
 		},
 		[updateEmployee.rejected]: (state, { error }) => {

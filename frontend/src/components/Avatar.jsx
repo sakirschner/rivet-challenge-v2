@@ -4,18 +4,18 @@ import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
 
 import './Avatar.css';
 
-export const Avatar = ({ employee, destination }) => {
+export const Avatar = ({ employeePhoto, destination }) => {
 	return (
 		<>
-			{employee.photo ? (
+			{employeePhoto ? (
 				<div
 					className={`avatar-container ${
 						destination === 'EmployeesListItem' ? 'small' : 'large'
 					}`}
 				>
 					<img
-						src={employee.photo}
-						alt={`${employee.first_name} ${employee.last_name}}`}
+						src={employeePhoto}
+						alt='employee avatar'
 					/>
 				</div>
 			) : (

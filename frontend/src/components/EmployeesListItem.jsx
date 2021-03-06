@@ -7,7 +7,7 @@ export const EmployeesListItem = ({ employee }) => {
 	return (
 		<div className='row my-4'>
 			<div className='col' align='middle'>
-				<Avatar employee={employee} destination='EmployeesListItem' />
+				<Avatar employeePhoto={employee.photo} destination='EmployeesListItem' />
 			</div>
 			<div className='col-8 align-self-center'>
 				<h3 className='mb-0'>

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { ImageUploadForm } from './ImageUploadForm';
@@ -6,11 +6,16 @@ import { ImageUploadForm } from './ImageUploadForm';
 import './EmployeeForm.css';
 
 export const EmployeeForm = ({
-	employee,
-	setEmployee,
+	employeeFromStore,
 	onFormSubmit,
 	onFormCancel
 }) => {
+	const [employee, setEmployee] = useState(employeeFromStore || {});
+
+	useEffect(() => {
+		setEmployee(employeeFromStore || {});
+	}, [employeeFromStore]);
+
 	const imageStatus = useSelector((state) => state.image.status);
 
 	const handleChange = (e) => {
@@ -18,6 +23,10 @@ export const EmployeeForm = ({
 		const value = target.value;
 		const name = target.name;
 		setEmployee({ ...employee, [name]: value });
+	};
+
+	const handleImageUpdate = (url) => {
+		setEmployee({ ...employee, photo: url });
 	};
 
 	const handleSubmitForm = (e) => {
@@ -32,7 +41,10 @@ export const EmployeeForm = ({
 
 	return (
 		<div className='form-container'>
-			<ImageUploadForm employee={employee} setEmployee={setEmployee} />
+			<ImageUploadForm
+				employeePhoto={employee.photo}
+				handleImageUpdate={handleImageUpdate}
+			/>
 			<form>
 				<div className='combo'>
 					<div className='col-6'>

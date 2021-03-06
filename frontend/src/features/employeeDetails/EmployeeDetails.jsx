@@ -29,7 +29,7 @@ export const EmployeeDetails = ({ match }) => {
 			{fetchStatus === 'loading' ? <h1>Loading...</h1> : null}
 			{fetchStatus === 'succeeded' ? (
 				<div>
-					<Avatar employee={employee} />
+					<Avatar employeePhoto={employee.photo} />
 					<h1>{employee.email}</h1>
 					<Link to={`/edit/${employee.id}`}>
 						<button>Edit</button>

@@ -14,7 +14,11 @@ export const addImage = createAsyncThunk('image/addImage', (image) => {
 const imageSlice = createSlice({
 	name: 'image',
 	initialState,
-	reducers: {},
+	reducers: {
+		resetError(state) {
+			state.error = null;
+		}
+	},
 	extraReducers: {
 		[addImage.pending]: (state) => {
 			state.status = 'loading';
@@ -29,5 +33,7 @@ const imageSlice = createSlice({
 		}
 	}
 });
+
+export const { resetError } = imageSlice.actions;
 
 export default imageSlice.reducer;

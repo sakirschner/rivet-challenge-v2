@@ -52,3 +52,12 @@
 	opacity: 1;
 	transform: translateY(0);
 }
+
+.message {
+	padding-top: 15px;
+}
+
+.message span{
+	font-size: 18px;
+	color: #ff0000;
+}
