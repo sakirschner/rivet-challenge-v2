@@ -46,9 +46,8 @@ export const EditEmployeePage = ({ match }) => {
 		history.push(`/profile/${employeeId}`);
 	};
 
-	const handleModalClose = (e) => {
-		e.preventDefault()
-		setShowModal(false);
+	const handleModal = () => {
+		setShowModal(!showModal);
 		if (updateStatus === 'succeeded') {
 			handleCancel();
 		}
@@ -56,23 +55,32 @@ export const EditEmployeePage = ({ match }) => {
 
 	return (
 		<>
-			<Modal showModal={showModal} onClickClose={handleModalClose}>
+			<Modal showModal={showModal} handleModal={handleModal}>
 				<div className='generic-container'>
 					<div className='message'>
 						{updateStatus === 'loading' ? (
 							<span>Saving...</span>
 						) : null}
 						{updateStatus === 'failed' ? (
-							<span>{error}</span>
-						) : null}
-						{updateStatus === 'succeeded' ? (
-							<span>Employee Saved</span>
+							<span id='error'>{error}</span>
 						) : null}
 					</div>
 				</div>
-				<div className='generic-container'>
-					<button className='primary' onClick={handleModalClose}>OK</button>
-				</div>
+
+				{updateStatus === 'succeeded' ? (
+					<>
+						<div className='generic-container'>
+							<div className='message'>
+								<span>Employee Saved!</span>
+							</div>
+						</div>
+						<div className='generic-container'>
+							<button className='primary' onClick={handleModal}>
+								OK
+							</button>
+						</div>
+					</>
+				) : null}
 			</Modal>
 			<EmployeeForm
 				onFormSubmit={handleSubmit}

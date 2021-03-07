@@ -21,9 +21,9 @@ export const EmployeesListPage = () => {
 		<div>
 			{fetchStatus === 'loading' ? <h1>Loading...</h1> : null}
 			{fetchStatus === 'succeeded' ? (
-				<div>
+				<ul>
 					<EmployeesList employees={employees} />
-				</div>
+				</ul>
 			) : null}
 			{fetchStatus === 'failed' ? <h1>{error}</h1> : null}
 		</div>

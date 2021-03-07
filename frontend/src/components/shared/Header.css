@@ -1,17 +1,31 @@
 .header {
-    background-color: #002345;
-    position: fixed;
-    width: 100%;
-    z-index: 1;
-    display: flex;
-    justify-content: space-between;
+	background-color: #002345;
+	position: fixed;
+	width: 100%;
+	z-index: 1;
+	display: flex;
+	justify-content: space-between;
 }
 
 .logo {
-    width: 150px;
+	width: 150px;
 }
 
-.add-button {
-    align-self: center;
-    margin-right: 20px;
+.nav,
+.list {
+	align-self: center;
+	margin-right: 20px;
+}
+
+.list {
+	color: #ffffff;
+}
+
+.list :hover {
+	color: #f05237;
+}
+
+.list button {
+	color: #ffffff;
+	background-color: transparent;
 }

@@ -5,18 +5,25 @@ import { Link, useLocation } from 'react-router-dom';
 import './Header.css';
 
 export const Header = () => {
-    const location = useLocation();
+	const location = useLocation();
 
 	return (
 		<div className='header'>
 			<Link to={'/'}>
 				<img src={logo} alt='logo' className='logo' />
 			</Link>
-			{location.pathname !== '/add' ? (
-				<Link to='/add' className='add-button'>
-					<button className="secondary">ADD EMPLOYEE</button>
+			<div className='nav'>
+			{location.pathname !== '/' ? (
+				<Link to={'/'} className='list' id='override'>
+					<button>EMPLOYEE LIST</button>
 				</Link>
-			) : null}
+			) : null }
+				{location.pathname !== '/add' ? (
+					<Link to='/add' className='add-button'>
+						<button className='secondary'>ADD EMPLOYEE</button>
+					</Link>
+				) : null}
+			</div>
 		</div>
 	);
 };

@@ -9,7 +9,7 @@ export const Avatar = ({ employeePhoto, destination }) => {
 		<>
 			{employeePhoto ? (
 				<div
-					className={`avatar-container ${
+					className={`avatar-mask ${
 						destination === 'EmployeesListItem' ? 'small' : 'large'
 					}`}
 				>

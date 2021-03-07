@@ -1,25 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { unwrapResult } from '@reduxjs/toolkit';
 
-import { addImage } from '../../features/uploadImage/imageSlice';
+import { addImage, resetError } from '../../features/uploadImage/imageSlice';
 
 import './ImagePreview.css';
 
 export const ImagePreview = ({
 	handleImageUpdate,
-	closeModal,
-	fileError,
-	setFileError,
-	previewSource,
-	setPreviewSource,
-	showConfirmation,
-	setShowConfirmation
+	showModal,
+	handleModal
 }) => {
 	const [fileInputState, setFileInputState] = useState('');
+	const [fileError, setFileError] = useState(false);
+	const [previewSource, setPreviewSource] = useState('');
+	const [showConfirmation, setShowConfirmation] = useState(false);
 
 	const imageError = useSelector((state) => state.image.error);
 	const imageStatus = useSelector((state) => state.image.status);
+
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		if (!showModal) {
+			setFileError('');
+			setPreviewSource('');
+			setShowConfirmation('');
+			if (imageError) {
+				dispatch(resetError());
+			}
+		}
+	}, [showModal, dispatch, imageError]);
 
 	const clickUploadImage = (e) => {
 		e.preventDefault();
@@ -51,15 +62,13 @@ export const ImagePreview = ({
 		setShowConfirmation(true);
 	};
 
-	const dispatch = useDispatch();
-
 	const handleSubmitImage = async (e) => {
 		e.preventDefault();
 		const result = await dispatch(addImage(previewSource)).then(
 			unwrapResult
 		);
 		handleImageUpdate(result.url);
-		closeModal();
+		handleModal();
 	};
 
 	return (
@@ -72,17 +81,15 @@ export const ImagePreview = ({
 				) : null}
 			</div>
 			<div className='generic-container message'>
-				{imageStatus === 'failed' ? <span>{imageError}</span> : null}
+				{imageStatus === 'failed' ? <span id='error'>{imageError}</span> : null}
 				{fileError ? (
-					<span>File must be an image less than 10mb</span>
+					<span id='error'>File must be an image less than 10mb</span>
 				) : null}
 			</div>
 
 			<div className='generic-container'>
 				{imageStatus === 'loading' ? (
-					<button disabled>
-						HANG TIGHT...
-					</button>
+					<button disabled>HANG TIGHT...</button>
 				) : (
 					<button className='primary' onClick={clickUploadImage}>
 						UPLOAD IMAGE

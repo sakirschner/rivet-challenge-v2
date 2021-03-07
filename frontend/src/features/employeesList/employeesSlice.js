@@ -69,9 +69,18 @@ const employeesSlice = createSlice({
 			state.updateStatus = 'failed';
 			state.error = error.message;
 		},
+		[addEmployee.pending]: (state) => {
+			state.addStatus = 'loading';
+		},
 		[addEmployee.fulfilled]: (state, { payload }) => {
 			employeesAdapter.addOne(state, payload);
-		}
+			state.addStatus = 'succeeded';
+			state.error = null;
+		},
+		[addEmployee.rejected]: (state, { error }) => {
+			state.addStatus = 'failed';
+			state.error = error.message;
+		},
 	}
 });
 

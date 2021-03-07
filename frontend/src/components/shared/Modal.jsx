@@ -3,9 +3,9 @@ import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 
 import './Modal.css';
 
-export const Modal = ({ children, showModal, onClickClose }) => {
-	const handleModalClose = (e) => {
-		onClickClose(e);
+export const Modal = ({ children, showModal, handleModal }) => {
+	const handleModalClose = () => {
+		handleModal();
 	};
 
 	return (

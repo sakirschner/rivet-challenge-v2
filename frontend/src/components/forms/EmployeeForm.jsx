@@ -159,7 +159,7 @@ export const EmployeeForm = ({
 						className='input-control'
 						type='text-area'
 						name='notes'
-						value={employee.notes}
+						value={employee.notes || ''}
 						onChange={handleChange}
 					/>
 				</div>

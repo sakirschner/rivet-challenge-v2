@@ -57,7 +57,10 @@
 	padding-top: 15px;
 }
 
-.message span{
+.message span {
 	font-size: 18px;
+}
+
+#error {
 	color: #ff0000;
 }

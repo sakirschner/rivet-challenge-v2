@@ -1,32 +1,74 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
-import { addEmployee } from '../employeesList/employeesSlice'
+import { addEmployee } from '../employeesList/employeesSlice';
 import { EmployeeForm } from '../../components/forms/EmployeeForm';
+import { Modal } from '../../components/shared/Modal';
 
 export const AddEmployeePage = () => {
-    const [addRequestStatus, setAddRequestStatus] = useState('idle')
+	const [showModal, setShowModal] = useState(false);
 
-    const dispatch = useDispatch();
-    const history = useHistory();
+	const addStatus = useSelector((state) => state.employees.addStatus);
+	const error = useSelector((state) => state.employees.error);
 
-    const onSubmit = async (employeeToAdd) => {
-		setAddRequestStatus('pending')
-		const response = await dispatch(addEmployee(employeeToAdd));
-		if (response.error) {
-			window.alert(response.error.message)
+	useEffect(() => {
+		if (addStatus === 'loading') {
+			setShowModal(true);
 		}
-		setAddRequestStatus('idle')
+	}, [addStatus]);
+
+	const dispatch = useDispatch();
+	const history = useHistory();
+
+	const handleSubmit = async (employeeToAdd) => {
+		await dispatch(addEmployee(employeeToAdd)).then(() => {});
 	};
 
-    return (
-		<div>
+	const handleCancel = () => {
+		history.push('/');
+	};
+
+	const handleModal = () => {
+		setShowModal(!showModal);
+		if (addStatus === 'succeeded') {
+			handleCancel();
+		}
+	};
+
+	return (
+		<>
+			<Modal showModal={showModal} handleModal={handleModal}>
+				<div className='generic-container'>
+					<div className='message'>
+						{addStatus === 'loading' ? (
+							<span>Saving...</span>
+						) : null}
+						{addStatus === 'failed' ? (
+							<span id='error'>{error}</span>
+						) : null}
+					</div>
+				</div>
+				{addStatus === 'succeeded' ? (
+					<>
+						<div className='generic-container'>
+							<div className='message'>
+								<span id='success'>Employee Added!</span>
+							</div>
+						</div>
+						<div className='generic-container'>
+							<button className='primary' onClick={handleModal}>
+								OK
+							</button>
+							
+						</div>
+					</>
+				) : null}
+			</Modal>
 			<EmployeeForm
-				onSubmit={onSubmit}
-				initialEmployee={null}
-				// validate={validate}
+				onFormSubmit={handleSubmit}
+				onFormCancel={handleCancel}
 			/>
-		</div>
+		</>
 	);
-}
+};
