@@ -14,7 +14,6 @@ export const EditEmployeePage = ({ match }) => {
 	const { employeeId } = match.params;
 
 	const [showModal, setShowModal] = useState(false);
-
 	const employeeFromStore = useSelector((state) =>
 		selectEmployeeById(state, employeeId)
 	);
@@ -86,6 +85,7 @@ export const EditEmployeePage = ({ match }) => {
 				onFormSubmit={handleSubmit}
 				onFormCancel={handleCancel}
 				employeeFromStore={employeeFromStore}
+				showModal={showModal}
 			/>
 		</>
 	);

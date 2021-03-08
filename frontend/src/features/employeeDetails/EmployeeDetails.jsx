@@ -36,7 +36,7 @@ export const EmployeeDetails = ({ match }) => {
 				<div className='details-container'>
 					<div className='row align-items-center'>
 						<div className='col-sm'>
-							<div className='push-right'>
+							<div className='center'>
 								<Avatar employeePhoto={employee.photo} />
 							</div>
 						</div>

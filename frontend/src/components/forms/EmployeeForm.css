@@ -29,3 +29,11 @@
 form {
     margin-bottom: 20px;
 }
+
+.form-errors {
+    text-align: center;
+}
+
+.form-errors li {
+    color: #ff0000;
+}

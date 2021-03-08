@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { ImageUploadForm } from './ImageUploadForm';
+import { customValidation } from './customValidation';
 
 import './EmployeeForm.css';
 
@@ -11,9 +12,7 @@ export const EmployeeForm = ({
 	onFormCancel
 }) => {
 	const [employee, setEmployee] = useState(employeeFromStore || {});
-	const [errors, setErrors] = useState({});
-	const [touched, setTouched] = useState({});
-	const [onBlur, setOnBlur] = useState(false);
+	const [errors, setErrors] = useState([]);
 
 	useEffect(() => {
 		setEmployee(employeeFromStore || {});
@@ -28,20 +27,21 @@ export const EmployeeForm = ({
 		setEmployee({ ...employee, [name]: value });
 	};
 
-	const handleBlur = (e) => {
-		const target = e.target;
-		const name = target.name;
-		setTouched({ ...touched, [name]: true });
-		setErrors({ ...errors });
-	};
-
 	const handleImageUpdate = (url) => {
 		setEmployee({ ...employee, photo: url });
 	};
 
+	const handleValidation = () => {
+		const valid = customValidation(employee, setErrors);
+		return valid;
+	};
+
 	const handleSubmitForm = (e) => {
 		e.preventDefault();
-		onFormSubmit({ employee });
+		const valid = handleValidation();
+		if (valid) {
+			onFormSubmit({ employee });
+		}
 	};
 
 	const handleFormCancel = (e) => {
@@ -65,9 +65,8 @@ export const EmployeeForm = ({
 							className='input-control'
 							type='text'
 							name='first_name'
-							value={employee.first_name}
+							value={employee.first_name || ''}
 							onChange={handleChange}
-							onBlur={handleBlur}
 						/>
 					</div>
 					<div className='col-sm'>
@@ -78,7 +77,7 @@ export const EmployeeForm = ({
 							className='input-control'
 							type='text'
 							name='last_name'
-							value={employee.last_name}
+							value={employee.last_name || ''}
 							onChange={handleChange}
 						/>
 					</div>
@@ -92,7 +91,7 @@ export const EmployeeForm = ({
 							className='input-control'
 							type='text'
 							name='phone'
-							value={employee.phone}
+							value={employee.phone || ''}
 							onChange={handleChange}
 						/>
 					</div>
@@ -104,7 +103,7 @@ export const EmployeeForm = ({
 							className='input-control'
 							type='email'
 							name='email'
-							value={employee.email}
+							value={employee.email || ''}
 							onChange={handleChange}
 							required
 						/>
@@ -119,7 +118,7 @@ export const EmployeeForm = ({
 							className='input-control'
 							type='text'
 							name='address'
-							value={employee.address}
+							value={employee.address || ''}
 							onChange={handleChange}
 						/>
 					</div>
@@ -131,7 +130,7 @@ export const EmployeeForm = ({
 							className='input-control'
 							type='text'
 							name='city'
-							value={employee.city}
+							value={employee.city || ''}
 							onChange={handleChange}
 						/>
 					</div>
@@ -145,7 +144,7 @@ export const EmployeeForm = ({
 							className='input-control'
 							type='text'
 							name='state'
-							value={employee.state}
+							value={employee.state || ''}
 							onChange={handleChange}
 						/>
 					</div>
@@ -157,7 +156,7 @@ export const EmployeeForm = ({
 							className='input-control'
 							type='text'
 							name='zip'
-							value={employee.zip}
+							value={employee.zip || ''}
 							onChange={handleChange}
 						/>
 					</div>
@@ -176,6 +175,13 @@ export const EmployeeForm = ({
 						/>
 					</div>
 				</div>
+				{errors.length > 0 ? (
+					<ul className='form-errors'>
+						{errors.map((error) => (
+							<li>{error}</li>
+						))}
+					</ul>
+				) : null}
 			</form>
 			<div className='row combo'>
 				<div className='col-sm'>

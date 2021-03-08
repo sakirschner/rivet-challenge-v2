@@ -1,5 +1,5 @@
-.push-right {
-    float: right;
+.center {
+    text-align: center;
 }
 
 .details-container {
@@ -25,9 +25,6 @@
         margin-top: 0;
     }
 
-    .push-right{
-        float:none;
-    }
     .info-container {
         text-align: center;
         margin: 25px 0;
