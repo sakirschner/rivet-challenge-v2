@@ -19,9 +19,13 @@
     margin: 0;
 }
 
-.combo > div > button {
-    margin: 20px 0px;
+.combo div button {
+    margin-bottom: 20px;
     flex: auto;
     width: 100%;
     padding: 15px
 } 
+
+form {
+    margin-bottom: 20px;
+}

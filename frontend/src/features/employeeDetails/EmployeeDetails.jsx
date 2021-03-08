@@ -28,7 +28,10 @@ export const EmployeeDetails = ({ match }) => {
 
 	return (
 		<>
-			{fetchStatus === 'loading' ? <h1>Loading...</h1> : null}
+			<div className='message-container'>
+				{fetchStatus === 'loading' ? <h1>Loading...</h1> : null}
+				{fetchStatus === 'failed' ? <h1>{error}</h1> : null}
+			</div>
 			{fetchStatus === 'succeeded' ? (
 				<div className='details-container'>
 					<div className='row align-items-center'>
@@ -64,7 +67,9 @@ export const EmployeeDetails = ({ match }) => {
 							</p>
 							<div className='button-container'>
 								<Link to={`/edit/${employee.id}`}>
-									<button className='primary-outlined'>EDIT</button>
+									<button className='primary-outlined'>
+										EDIT
+									</button>
 								</Link>
 							</div>
 						</div>
@@ -79,7 +84,6 @@ export const EmployeeDetails = ({ match }) => {
 					</div> */}
 				</div>
 			) : null}
-			{fetchStatus === 'failed' ? <h1>{error}</h1> : null}
 		</>
 	);
 };

@@ -11,6 +11,9 @@ export const EmployeeForm = ({
 	onFormCancel
 }) => {
 	const [employee, setEmployee] = useState(employeeFromStore || {});
+	const [errors, setErrors] = useState({});
+	const [touched, setTouched] = useState({});
+	const [onBlur, setOnBlur] = useState(false);
 
 	useEffect(() => {
 		setEmployee(employeeFromStore || {});
@@ -23,6 +26,13 @@ export const EmployeeForm = ({
 		const value = target.value;
 		const name = target.name;
 		setEmployee({ ...employee, [name]: value });
+	};
+
+	const handleBlur = (e) => {
+		const target = e.target;
+		const name = target.name;
+		setTouched({ ...touched, [name]: true });
+		setErrors({ ...errors });
 	};
 
 	const handleImageUpdate = (url) => {
@@ -46,8 +56,8 @@ export const EmployeeForm = ({
 				handleImageUpdate={handleImageUpdate}
 			/>
 			<form>
-				<div className='combo'>
-					<div className='col-6'>
+				<div className='row'>
+					<div className='col-sm'>
 						<label htmlFor='first_name' className='label-control'>
 							First Name
 						</label>
@@ -57,9 +67,10 @@ export const EmployeeForm = ({
 							name='first_name'
 							value={employee.first_name}
 							onChange={handleChange}
+							onBlur={handleBlur}
 						/>
 					</div>
-					<div className='col-6'>
+					<div className='col-sm'>
 						<label htmlFor='last_name' className='label-control'>
 							Last Name
 						</label>
@@ -72,8 +83,8 @@ export const EmployeeForm = ({
 						/>
 					</div>
 				</div>
-				<div className='combo'>
-					<div className='col-6'>
+				<div className='row'>
+					<div className='col-sm'>
 						<label htmlFor='phone' className='label-control'>
 							Phone
 						</label>
@@ -85,7 +96,7 @@ export const EmployeeForm = ({
 							onChange={handleChange}
 						/>
 					</div>
-					<div className='col-6'>
+					<div className='col-sm'>
 						<label htmlFor='email' className='label-control'>
 							Email
 						</label>
@@ -99,8 +110,8 @@ export const EmployeeForm = ({
 						/>
 					</div>
 				</div>
-				<div className='combo'>
-					<div className='col-6'>
+				<div className='row'>
+					<div className='col-sm'>
 						<label htmlFor='address' className='label-control'>
 							Address
 						</label>
@@ -112,7 +123,7 @@ export const EmployeeForm = ({
 							onChange={handleChange}
 						/>
 					</div>
-					<div className='col-6'>
+					<div className='col-sm'>
 						<label htmlFor='city' className='label-control'>
 							City
 						</label>
@@ -125,8 +136,8 @@ export const EmployeeForm = ({
 						/>
 					</div>
 				</div>
-				<div className='combo'>
-					<div className='col-6'>
+				<div className='row'>
+					<div className='col-sm'>
 						<label htmlFor='state' className='label-control'>
 							State
 						</label>
@@ -138,7 +149,7 @@ export const EmployeeForm = ({
 							onChange={handleChange}
 						/>
 					</div>
-					<div className='col-6'>
+					<div className='col-sm'>
 						<label htmlFor='zip' className='label-control'>
 							Zip
 						</label>
@@ -151,21 +162,23 @@ export const EmployeeForm = ({
 						/>
 					</div>
 				</div>
-				<div className='col-12'>
-					<label htmlFor='notes' className='label-control'>
-						Notes
-					</label>
-					<input
-						className='input-control'
-						type='text-area'
-						name='notes'
-						value={employee.notes || ''}
-						onChange={handleChange}
-					/>
+				<div className='row'>
+					<div className='col-12'>
+						<label htmlFor='notes' className='label-control'>
+							Notes
+						</label>
+						<textarea
+							className='input-control'
+							type='text-area'
+							name='notes'
+							value={employee.notes || ''}
+							onChange={handleChange}
+						/>
+					</div>
 				</div>
 			</form>
-			<div className='combo'>
-				<div className='col-sm-6'>
+			<div className='row combo'>
+				<div className='col-sm'>
 					{imageStatus === 'loading' ? (
 						<button disabled>Hang Tight...</button>
 					) : (
@@ -174,7 +187,7 @@ export const EmployeeForm = ({
 						</button>
 					)}
 				</div>
-				<div className='col-sm-6'>
+				<div className='col-sm'>
 					<button onClick={handleFormCancel} className='secondary'>
 						CANCEL
 					</button>

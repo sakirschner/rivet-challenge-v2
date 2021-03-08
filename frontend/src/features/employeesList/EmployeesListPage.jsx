@@ -3,6 +3,9 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { fetchEmployees, selectAllEmployees } from './employeesSlice';
 import { EmployeesList } from './EmployeesList';
+import { ScrollToTop } from '../../components/ScrollToTop';
+
+import './EmployeesListPage.css'
 
 export const EmployeesListPage = () => {
 	const employees = useSelector(selectAllEmployees);
@@ -18,14 +21,19 @@ export const EmployeesListPage = () => {
 	}, [fetchStatus, dispatch]);
 
 	return (
-		<div>
-			{fetchStatus === 'loading' ? <h1>Loading...</h1> : null}
-			{fetchStatus === 'succeeded' ? (
-				<ul>
-					<EmployeesList employees={employees} />
-				</ul>
-			) : null}
-			{fetchStatus === 'failed' ? <h1>{error}</h1> : null}
+		<>
+		<div className='message-container'>
+			{fetchStatus === 'loading' ? <p>Loading...</p> : null}
+			{fetchStatus === 'failed' ? <p>{error}</p> : null}
 		</div>
+			{fetchStatus === 'succeeded' ? (
+				<>
+					<ul>
+						<EmployeesList employees={employees} />
+					</ul>
+					<ScrollToTop />
+				</>
+			) : null}
+		</>
 	);
 };

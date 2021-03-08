@@ -8,16 +8,16 @@ export const Header = () => {
 	const location = useLocation();
 
 	return (
-		<div className='header'>
+		<div className='header' id='myTopnav'>
 			<Link to={'/'}>
 				<img src={logo} alt='logo' className='logo' />
 			</Link>
-			<div className='nav'>
-			{location.pathname !== '/' ? (
-				<Link to={'/'} className='list' id='override'>
-					<button>EMPLOYEE LIST</button>
-				</Link>
-			) : null }
+			<div className='right-nav'>
+				{location.pathname !== '/' ? (
+					<Link to={'/'} className='list' id='override'>
+						<button>EMPLOYEE LIST</button>
+					</Link>
+				) : null}
 				{location.pathname !== '/add' ? (
 					<Link to='/add' className='add-button'>
 						<button className='secondary'>ADD EMPLOYEE</button>

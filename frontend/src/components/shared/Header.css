@@ -11,7 +11,7 @@
 	width: 150px;
 }
 
-.nav,
+.right-nav,
 .list {
 	align-self: center;
 	margin-right: 20px;
@@ -28,4 +28,11 @@
 .list button {
 	color: #ffffff;
 	background-color: transparent;
+}
+
+@media only screen and (max-width: 575px) {
+	.right-nav {
+		display: flex;
+		flex-wrap: nowrap;
+	}
 }
