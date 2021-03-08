@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { fetchEmployees, selectAllEmployees } from '../employeesSlice';
+import { fetchEmployees, selectAllEmployees } from './employeesSlice';
 import { EmployeesList } from './EmployeesList';
 import { ScrollToTop } from '../../../components/ScrollToTop';
 
-import './EmployeesListPage.css'
+import './EmployeesListPage.css';
 
 export const EmployeesListPage = () => {
 	const employees = useSelector(selectAllEmployees);
@@ -22,10 +22,10 @@ export const EmployeesListPage = () => {
 
 	return (
 		<>
-		<div className='message-container'>
-			{fetchStatus === 'loading' ? <p>Loading...</p> : null}
-			{fetchStatus === 'failed' ? <p>{error}</p> : null}
-		</div>
+			<div className='message-container'>
+				{fetchStatus === 'loading' ? <p>Loading...</p> : null}
+				{fetchStatus === 'failed' ? <p>{error}</p> : null}
+			</div>
 			{fetchStatus === 'succeeded' ? (
 				<>
 					<ul>

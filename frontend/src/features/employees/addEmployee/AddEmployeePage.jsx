@@ -60,7 +60,6 @@ export const AddEmployeePage = () => {
 							<button className='primary' onClick={handleModal}>
 								OK
 							</button>
-							
 						</div>
 					</>
 				) : null}

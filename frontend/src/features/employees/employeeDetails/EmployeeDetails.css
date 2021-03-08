@@ -1,45 +1,44 @@
 .center {
-    text-align: center;
+	text-align: center;
 }
 
 .details-container {
-    margin-top: 50px;
+	margin-top: 50px;
 }
 
 .detail {
-    margin-bottom: 0;
+	margin-bottom: 0;
 }
 
 .button-container {
-    width: 300px;
-    margin-top: 25px; 
+	width: 300px;
+	margin-top: 25px;
 }
 
 .button-container a button {
-    width: 100%;
+	width: 100%;
 }
 
 @media only screen and (max-width: 579px) {
-    
-    .details-container {
-        margin-top: 0;
-    }
+	.details-container {
+		margin-top: 0;
+	}
 
-    .info-container {
-        text-align: center;
-        margin: 25px 0;
-    }
+	.info-container {
+		text-align: center;
+		margin: 25px 0;
+	}
 
-    .button-container {
-        display: flex; 
-        width: 100%
-    }
+	.button-container {
+		display: flex;
+		width: 100%;
+	}
 
-    .button-container a {
-        width: 100%;
-    }
+	.button-container a {
+		width: 100%;
+	}
 
-    .button-container a button {
-        width: 80%;
-    }
+	.button-container a button {
+		width: 80%;
+	}
 }

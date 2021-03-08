@@ -2,10 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import {
-	selectEmployeeById,
-	fetchEmployees
-} from '../employeesSlice';
+import { selectEmployeeById, fetchEmployees } from '../employeesSlice';
 import { Avatar } from '../../../components/shared/Avatar';
 
 import './EmployeeDetails.css';
@@ -74,14 +71,6 @@ export const EmployeeDetails = ({ match }) => {
 							</div>
 						</div>
 					</div>
-					{/* <div className='d-flex justify-content-center'>
-						<div className='button-container'>
-	
-							<Link to={`/`}>
-								<button className='secondary'>BACK</button>
-							</Link>
-						</div>
-					</div> */}
 				</div>
 			) : null}
 		</>

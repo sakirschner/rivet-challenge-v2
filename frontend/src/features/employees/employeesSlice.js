@@ -40,7 +40,7 @@ const employeesSlice = createSlice({
 		fetchStatus: 'idle',
 		updateStatus: 'idle',
 		addStatus: 'idle',
-		error: null,
+		error: null
 	}),
 	extraReducers: {
 		[fetchEmployees.pending]: (state) => {
@@ -80,7 +80,7 @@ const employeesSlice = createSlice({
 		[addEmployee.rejected]: (state, { error }) => {
 			state.addStatus = 'failed';
 			state.error = error.message;
-		},
+		}
 	}
 });
 
