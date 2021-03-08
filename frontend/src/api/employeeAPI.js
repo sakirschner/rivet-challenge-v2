@@ -1,39 +1,20 @@
+import { client } from './client';
+
 const apiURL = process.env.REACT_APP_API_URL;
 const apiToken = process.env.REACT_APP_API_TOKEN;
 
-export async function employeeAPI(endpoint, { body, ...customConfig } = {}) {
-	const config = {
-		body: body ? JSON.stringify(body) : undefined,
-		headers: {
-			'Content-Type': 'application/json',
-			token: apiToken
-		},
-		...customConfig
-	};
+const headers = {token: apiToken}
 
-	let data;
-	try {
-		const response = await window.fetch(`${apiURL}/${endpoint}`, config);
-		data = response.json();
-		if (response.ok) {
-			return data;
-		}
-		const error = new Error(`${response.status} ${response.statusText}`)
-		console.error(error);
-		throw new Error(error);
-	} catch (err) {
-		return Promise.reject(err);
-	}
-}
+export const employeeAPI = client;
 
 employeeAPI.get = function (endpoint, customConfig = {}) {
-	return employeeAPI(endpoint, { ...customConfig, method: 'GET' });
+	return employeeAPI(endpoint, { ...customConfig, headers, method: 'GET' }, apiURL);
 };
 
 employeeAPI.put = function (endpoint, body, customConfig = {}) {
-	return employeeAPI(endpoint, { ...customConfig, body, method: 'PUT' });
+	return employeeAPI(endpoint, { ...customConfig, headers, body, method: 'PUT' }, apiURL);
 };
 
 employeeAPI.post = function (endpoint, body, customConfig = {}) {
-	return employeeAPI(endpoint, { ...customConfig, body, method: 'POST' });
+	return employeeAPI(endpoint, { ...customConfig, headers, body, method: 'POST' }, apiURL);
 };
