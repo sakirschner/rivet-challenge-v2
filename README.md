@@ -30,7 +30,7 @@ This app provides the ability to upload images which are hosted via Cloudinary. 
 - In the root of the `frontend` directory create a file called `.env.local` and be sure to put the period in the begining of the file name.      
     - Note there IS .local appending .env
     - This file stores the API credentials for Rivet
-- In `.env` add the following:
+- In `.env.local` add the following:
     ```
     REACT_APP_API_URL=https://codechallenge.rivet.work/api/v1
     REACT_APP_API_TOKEN=<your api token>
