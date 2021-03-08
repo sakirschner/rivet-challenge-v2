@@ -30,7 +30,7 @@ export const updateEmployee = createAsyncThunk(
 export const addEmployee = createAsyncThunk(
 	'employee/addEmployee',
 	({ employee }) => {
-		return employeeAPI.post(`/profile`, employee);
+		return employeeAPI.post('/profile', employee );
 	}
 );
 
