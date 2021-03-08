@@ -4,10 +4,10 @@ hr {
 
 @media only screen and (max-width: 579px) {
 	.info-preview {
-        margin: 15px 0;
+		margin: 15px 0;
 		text-align: center;
-    }
-    .details-btn {
-        width: 80%;
-    }
+	}
+	.details-btn {
+		width: 80%;
+	}
 }

@@ -10,7 +10,7 @@ export const customValidation = (employee, setErrors) => {
 		}
 	});
 
-	//check for empty field in an incomplete object
+	//check for empty field in an incomplete employee object
 	if (Object.keys(employee).length < 8) {
 		formIsValid = false;
 		errorsFound.push('All fields but notes and photo are required');
@@ -37,7 +37,7 @@ export const customValidation = (employee, setErrors) => {
 
 	// check for a valid email
 	if (typeof employee.email !== 'undefined') {
-		const emailPattern = /^[^@\s]+@[^@\s\.]+\.[^@\.\s]+$/;
+		const emailPattern = /^[^@\s]+@[^@\s.]+\.[^@.\s]+$/;
 
 		if (!employee.email.match(emailPattern)) {
 			formIsValid = false;

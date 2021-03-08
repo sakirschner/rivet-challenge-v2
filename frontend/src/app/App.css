@@ -7,7 +7,7 @@ body {
 }
 
 .content-container {
-    padding: 80px 0 0 0;
+	padding: 80px 0 0 0;
 }
 
 .message-container {
@@ -56,7 +56,8 @@ button {
 	background-color: #ff674d;
 }
 
-.primary, .secondary {
+.primary,
+.secondary {
 	color: #ffffff;
 	border-radius: 5px;
 	font-size: 14px;

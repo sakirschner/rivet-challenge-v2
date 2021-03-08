@@ -1,39 +1,39 @@
 .form-container {
-    margin: 0 50px;
-    padding: 0;
+	margin: 0 50px;
+	padding: 0;
 }
 
 .input-control {
-    width: 100%;
-    margin-bottom: 10px;
-    padding: 10px;
-    border: 1px solid #b9b9b9;
-    border-radius: 5px;
+	width: 100%;
+	margin-bottom: 10px;
+	padding: 10px;
+	border: 1px solid #b9b9b9;
+	border-radius: 5px;
 }
 
 .combo {
-    display: flex;
+	display: flex;
 }
 
 .label-control {
-    margin: 0;
+	margin: 0;
 }
 
 .combo div button {
-    margin-bottom: 20px;
-    flex: auto;
-    width: 100%;
-    padding: 15px
-} 
+	margin-bottom: 20px;
+	flex: auto;
+	width: 100%;
+	padding: 15px;
+}
 
 form {
-    margin-bottom: 20px;
+	margin-bottom: 20px;
 }
 
 .form-errors {
-    text-align: center;
+	text-align: center;
 }
 
 .form-errors li {
-    color: #ff0000;
+	color: #ff0000;
 }

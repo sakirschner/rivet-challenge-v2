@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from '../../images/Rivet_Logo_White.png';
+import logo from '../../assets/Rivet_Logo_White.png';
 import { Link, useLocation } from 'react-router-dom';
 
 import './Header.css';

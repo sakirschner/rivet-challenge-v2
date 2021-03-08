@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { fetchEmployees, selectAllEmployees } from './employeesSlice';
+import { fetchEmployees, selectAllEmployees } from '../employeesSlice';
 import { EmployeesList } from './EmployeesList';
-import { ScrollToTop } from '../../components/ScrollToTop';
+import { ScrollToTop } from '../../../components/ScrollToTop';
 
 import './EmployeesListPage.css'
 

@@ -5,8 +5,8 @@ import { Link } from 'react-router-dom';
 import {
 	selectEmployeeById,
 	fetchEmployees
-} from '../employeesList/employeesSlice';
-import { Avatar } from '../../components/Avatar';
+} from '../employeesSlice';
+import { Avatar } from '../../../components/shared/Avatar';
 
 import './EmployeeDetails.css';
 

@@ -6,9 +6,9 @@ import {
 	updateEmployee,
 	fetchEmployees,
 	selectEmployeeById
-} from '../employeesList/employeesSlice';
-import { Modal } from '../../components/shared/Modal';
-import { EmployeeForm } from '../../components/forms/EmployeeForm';
+} from '../employeesSlice';
+import { Modal } from '../../../components/shared/Modal';
+import { EmployeeForm } from '../../../components/forms/EmployeeForm';
 
 export const EditEmployeePage = ({ match }) => {
 	const { employeeId } = match.params;

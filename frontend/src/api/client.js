@@ -1,4 +1,4 @@
-export async function client(endpoint, { body, ...customConfig } = {}, apiURL = '') {
+export async function client(endpoint, { body, ...customConfig } = {}, apiURL) {
 	const config = {
 		body: body ? JSON.stringify(body) : undefined,
 		...customConfig,
@@ -6,11 +6,18 @@ export async function client(endpoint, { body, ...customConfig } = {}, apiURL = 
 			'Content-Type': 'application/json',
 			...customConfig.headers
 		}
-    };
-    
+	};
+
+	let requestURL;
+	if (apiURL) {
+		requestURL = `${apiURL}/${endpoint}`;
+	} else {
+		requestURL = `${endpoint}`;
+	}
+
 	let data;
 	try {
-		const response = await window.fetch(`${apiURL}/${endpoint}`, config);
+		const response = await window.fetch(requestURL, config);
 		data = response.json();
 		if (response.ok) {
 			return data;

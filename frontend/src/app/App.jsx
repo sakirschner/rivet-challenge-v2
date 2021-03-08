@@ -6,13 +6,13 @@ import {
 	Redirect
 } from 'react-router-dom';
 
-import { EmployeesListPage } from '../features/employeesList/EmployeesListPage';
-import { EmployeeDetails } from '../features/employeeDetails/EmployeeDetails';
-import { EditEmployeePage } from '../features/editEmployee/EditEmployeePage';
-import { AddEmployeePage } from '../features/addEmployee/AddEmployeePage';
+import { EmployeesListPage } from '../features/employees/employeesList/EmployeesListPage';
+import { EmployeeDetails } from '../features/employees/employeeDetails/EmployeeDetails';
+import { EditEmployeePage } from '../features/employees/editEmployee/EditEmployeePage';
+import { AddEmployeePage } from '../features/employees/addEmployee/AddEmployeePage';
 import { Header } from '../components/shared/Header';
 
-import './App.css'
+import './App.css';
 
 export default function App() {
 	return (

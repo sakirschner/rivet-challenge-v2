@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
-import { addEmployee } from '../employeesList/employeesSlice';
-import { EmployeeForm } from '../../components/forms/EmployeeForm';
-import { Modal } from '../../components/shared/Modal';
+import { addEmployee } from '../employeesSlice';
+import { EmployeeForm } from '../../../components/forms/EmployeeForm';
+import { Modal } from '../../../components/shared/Modal';
 
 export const AddEmployeePage = () => {
 	const [showModal, setShowModal] = useState(false);

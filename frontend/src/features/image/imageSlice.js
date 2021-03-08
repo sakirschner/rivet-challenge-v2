@@ -8,7 +8,7 @@ const initialState = {
 };
 
 export const addImage = createAsyncThunk('image/addImage', (image) => {
-	return imageAPI.post(`/api/upload`, image);
+	return imageAPI.post(`/api/upload`, {data: image});
 });
 
 const imageSlice = createSlice({

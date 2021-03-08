@@ -13,10 +13,7 @@ export const Avatar = ({ employeePhoto, destination }) => {
 						destination === 'EmployeesListItem' ? 'small' : 'large'
 					}`}
 				>
-					<img
-						src={employeePhoto}
-						alt='employee avatar'
-					/>
+					<img src={employeePhoto} alt='employee avatar' />
 				</div>
 			) : (
 				<FontAwesomeIcon

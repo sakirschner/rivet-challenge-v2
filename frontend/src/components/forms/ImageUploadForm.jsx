@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
 
-import { Avatar } from '../Avatar';
+import { Avatar } from '../shared/Avatar';
 import { Modal } from '../shared/Modal';
 import { ImagePreview } from './ImagePreview';
 
@@ -13,8 +13,8 @@ export const ImageUploadForm = ({ employeePhoto, handleImageUpdate }) => {
 	const [showModal, setShowModal] = useState(false);
 
 	const handleModal = () => {
-		setShowModal(!showModal)
-	}
+		setShowModal(!showModal);
+	};
 
 	return (
 		<>

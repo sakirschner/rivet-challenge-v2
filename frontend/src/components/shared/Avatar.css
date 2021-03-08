@@ -13,23 +13,22 @@
 	left: 50%;
 	top: 50%;
 	-webkit-transform: translate(-50%, -50%);
-	-moz-transform: translate(-50%, -50%);
-	-ms-transform: translate(-50%, -50%);
 	transform: translate(-50%, -50%);
 }
 
 .small {
-    width: 80px;
-    height: 80px;
+	width: 80px;
+	height: 80px;
 }
 
 .large {
-    width: 250px;
-    height: 250px;
+	width: 250px;
+	height: 250px;
 }
 
-.small img, .large img {
-    width: 100%;
+.small img,
+.large img {
+	width: 100%;
 }
 
 .icon {

@@ -2,15 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { unwrapResult } from '@reduxjs/toolkit';
 
-import { addImage, resetError } from '../../features/uploadImage/imageSlice';
+import { addImage, resetError } from '../../features/image/imageSlice';
 
 import './ImagePreview.css';
 
-export const ImagePreview = ({
-	handleImageUpdate,
-	showModal,
-	handleModal
-}) => {
+export const ImagePreview = ({ handleImageUpdate, showModal, handleModal }) => {
 	const [fileInputState, setFileInputState] = useState('');
 	const [fileError, setFileError] = useState(false);
 	const [previewSource, setPreviewSource] = useState('');
@@ -81,7 +77,9 @@ export const ImagePreview = ({
 				) : null}
 			</div>
 			<div className='generic-container message'>
-				{imageStatus === 'failed' ? <span id='error'>{imageError}</span> : null}
+				{imageStatus === 'failed' ? (
+					<span id='error'>{imageError}</span>
+				) : null}
 				{fileError ? (
 					<span id='error'>File must be an image less than 10mb</span>
 				) : null}
